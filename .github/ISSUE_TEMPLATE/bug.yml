@@ -1,0 +1,35 @@
+name: 🐛 Signaler un bug
+description: Quelque chose ne marche pas dans le jeu ? Raconte-nous !
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de nous aider à améliorer Cuberra Isles ! 🙏
+        Ne mets pas d'informations personnelles (nom, adresse, école...).
+  - type: textarea
+    id: quoi
+    attributes:
+      label: Qu'est-ce qui ne va pas ?
+      description: Explique le problème avec tes mots.
+      placeholder: "Ex. : sur l'Île Glacée, mon cube est bloqué dans un rocher."
+    validations:
+      required: true
+  - type: textarea
+    id: comment
+    attributes:
+      label: Comment ça arrive ?
+      description: Ce que tu faisais juste avant (si tu t'en souviens).
+      placeholder: "1. Je vais au ponton...  2. J'appuie sur E...  3. ..."
+  - type: input
+    id: version
+    attributes:
+      label: Version du jeu
+      description: Elle est écrite en bas à droite du menu principal.
+      placeholder: "v0.1.0 bêta"
+  - type: textarea
+    id: capture
+    attributes:
+      label: Capture d'écran
+      description: Si tu peux, glisse une capture d'écran ici (touches Windows + Maj + S).
