@@ -54,7 +54,7 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 
 ## 🐛 Tu as trouvé un bug ?
 
-C'est une **version bêta** : il reste sûrement de petits problèmes. Dis-le-nous !
+Quelque chose ne marche pas comme prévu ? Dis-le-nous !
 Clique sur **« Signaler un bug »** dans le menu du jeu, ou va directement sur
 **[la page des bugs](https://github.com/maher-mme/cuberra-isles/issues/new/choose)**.
 (Il faut un compte GitHub, c'est gratuit.)
