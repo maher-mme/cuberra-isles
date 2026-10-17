@@ -99,6 +99,7 @@ body {
 // réveille au premier toucher (ou clic, ou touche du clavier).
 (function () {
 	var contextes = [];
+	window.cuberraContextesAudio = contextes;
 	["AudioContext", "webkitAudioContext"].forEach(function (nom) {
 		var Original = window[nom];
 		if (!Original) return;
@@ -112,7 +113,13 @@ body {
 	});
 	function reveiller() {
 		contextes.forEach(function (contexte) {
-			if (contexte.state !== "running") contexte.resume();
+			if (contexte.state !== "running") {
+				contexte.resume().then(function () {
+					console.log("Son : contexte réveillé (" + contexte.state + ")");
+				}, function (e) {
+					console.log("Son : impossible de réveiller (" + e + ")");
+				});
+			}
 		});
 	}
 	["touchstart", "touchend", "pointerdown", "mousedown", "keydown"].forEach(function (evenement) {
@@ -155,12 +162,21 @@ body {
 			"font:11px/1.35 monospace;background:rgba(0,0,0,.85);color:#7dff9a;z-index:999;display:none;white-space:pre-wrap";
 		document.body.appendChild(boite);
 		boite.textContent = lignes.join("\n");
+		var force = /diag/.test(location.search);
+		if (force) {
+			setInterval(function () {
+				var etats = (window.cuberraContextesAudio || []).map(function (c) {
+					return c.state + " " + c.sampleRate + "Hz";
+				});
+				ajouter("Son : " + (etats.length ? etats.join(", ") : "aucun contexte audio"));
+			}, 3000);
+		}
 		setInterval(function () {
 			var statut = document.getElementById("status");
 			var bloque = statut && getComputedStyle(statut).visibility !== "hidden" && getComputedStyle(statut).display !== "none" &&
 				Date.now() - debut > 30000;
 			var erreur = /ERREUR|error :/.test(boite.textContent);
-			boite.style.display = bloque || erreur ? "block" : "none";
+			boite.style.display = force || bloque || erreur ? "block" : "none";
 		}, 1000);
 	});
 })();
