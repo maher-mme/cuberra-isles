@@ -93,7 +93,52 @@ body {
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
-	</head>
+	<script>
+// Diagnostic : si le jeu reste bloqué après le chargement (ou en cas d'erreur),
+// on affiche en bas de l'écran ce qui se passe, pour pouvoir le signaler.
+(function () {
+	var lignes = [];
+	var debut = Date.now();
+	function ajouter(texte) {
+		var temps = ((Date.now() - debut) / 1000).toFixed(1) + "s ";
+		lignes.push(temps + String(texte).slice(0, 220));
+		if (lignes.length > 14) lignes.shift();
+		var boite = document.getElementById("diagnostic");
+		if (boite) boite.textContent = lignes.join("\n");
+	}
+	["log", "warn", "error"].forEach(function (sorte) {
+		var original = console[sorte];
+		console[sorte] = function () {
+			try { ajouter(sorte + " : " + Array.prototype.join.call(arguments, " ")); } catch (e) {}
+			return original.apply(console, arguments);
+		};
+	});
+	window.addEventListener("error", function (e) { ajouter("ERREUR : " + e.message); });
+	window.addEventListener("unhandledrejection", function (e) {
+		ajouter("ERREUR : " + ((e.reason && e.reason.message) || e.reason));
+	});
+	document.addEventListener("DOMContentLoaded", function () {
+		var gl = document.createElement("canvas").getContext("webgl2");
+		ajouter("Appareil : " + navigator.userAgent);
+		ajouter("Mémoire : " + (navigator.deviceMemory || "?") + " Go · processeurs : " + (navigator.hardwareConcurrency || "?") +
+			" · WebGL2 : " + (gl ? "oui" : "NON") + " · écran : " + screen.width + "x" + screen.height);
+		var boite = document.createElement("pre");
+		boite.id = "diagnostic";
+		boite.style.cssText = "position:fixed;left:0;right:0;bottom:0;max-height:50%;overflow:auto;margin:0;padding:8px;" +
+			"font:11px/1.35 monospace;background:rgba(0,0,0,.85);color:#7dff9a;z-index:999;display:none;white-space:pre-wrap";
+		document.body.appendChild(boite);
+		boite.textContent = lignes.join("\n");
+		setInterval(function () {
+			var statut = document.getElementById("status");
+			var bloque = statut && getComputedStyle(statut).visibility !== "hidden" && getComputedStyle(statut).display !== "none" &&
+				Date.now() - debut > 30000;
+			var erreur = /ERREUR|error :/.test(boite.textContent);
+			boite.style.display = bloque || erreur ? "block" : "none";
+		}, 1000);
+	});
+})();
+</script>
+</head>
 	<body>
 		<canvas id="canvas">
 			Your browser does not support the canvas tag.
