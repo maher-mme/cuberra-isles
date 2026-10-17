@@ -94,6 +94,33 @@ body {
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
 	<script>
+// Le son sur téléphone : les navigateurs bloquent le son tant qu'on n'a pas
+// touché l'écran. On garde les « contextes audio » créés par le jeu, et on les
+// réveille au premier toucher (ou clic, ou touche du clavier).
+(function () {
+	var contextes = [];
+	["AudioContext", "webkitAudioContext"].forEach(function (nom) {
+		var Original = window[nom];
+		if (!Original) return;
+		var Enveloppe = function (options) {
+			var contexte = new Original(options);
+			contextes.push(contexte);
+			return contexte;
+		};
+		Enveloppe.prototype = Original.prototype;
+		window[nom] = Enveloppe;
+	});
+	function reveiller() {
+		contextes.forEach(function (contexte) {
+			if (contexte.state !== "running") contexte.resume();
+		});
+	}
+	["touchstart", "touchend", "pointerdown", "mousedown", "keydown"].forEach(function (evenement) {
+		window.addEventListener(evenement, reveiller, true);
+	});
+})();
+</script>
+<script>
 // Diagnostic : si le jeu reste bloqué après le chargement (ou en cas d'erreur),
 // on affiche en bas de l'écran ce qui se passe, pour pouvoir le signaler.
 (function () {
@@ -156,7 +183,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43497720,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43499160,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
