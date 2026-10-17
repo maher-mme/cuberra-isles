@@ -8,7 +8,9 @@
 Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 <p align="center">
-  <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>⬇️ Télécharger le jeu pour Windows</b></a>
+  🌐 <a href="https://maher-mme.github.io/cuberra-isles/"><b>Le site du jeu</b></a> ·
+  <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>⬇️ Télécharger pour Windows</b></a> ·
+  <a href="https://maher-mme.github.io/cuberra-isles/jouer/"><b>▶️ Jouer dans le navigateur</b></a>
 </p>
 
 ---

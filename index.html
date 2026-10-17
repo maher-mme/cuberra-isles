@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuberra Isles</title>
+<meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit, sur Windows et dans le navigateur (iPhone, iPad, Android).">
+<meta property="og:title" content="Cuberra Isles">
+<meta property="og:description" content="Une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit.">
+<meta property="og:image" content="https://maher-mme.github.io/cuberra-isles/apercu-reseaux.png">
+<link rel="icon" href="images/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nuit: #141432;
+    --nuit-2: #1d1f45;
+    --carte: #23264f;
+    --bord: #343a72;
+    --texte: #eef0ff;
+    --doux: #b8bde6;
+    --or: #f2c14e;
+    --or-fonce: #d39a1f;
+    --bleu: #4a9ad8;
+    --bleu-fonce: #2a6fbd;
+    --vert: #7dff9a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--nuit);
+    color: var(--texte);
+    font: 17px/1.6 "Nunito", system-ui, sans-serif;
+  }
+  a { color: var(--or); }
+  h1, h2, h3 { font-family: "Fredoka", "Nunito", sans-serif; line-height: 1.15; }
+  .contenu { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  /* --- L'affiche en haut --- */
+  .haut {
+    position: relative;
+    min-height: min(92vh, 760px);
+    display: flex;
+    align-items: flex-end;
+    background: url("images/affiche.jpg") center 30% / cover no-repeat;
+  }
+  .haut::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(20,20,50,0) 35%, rgba(20,20,50,.75) 70%, var(--nuit) 100%);
+  }
+  .haut .contenu { position: relative; z-index: 1; width: 100%; padding-bottom: 48px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(242,193,78,.15);
+    border: 1px solid var(--or);
+    color: var(--or);
+    font-weight: 800;
+    font-size: 14px;
+  }
+  .haut h1 {
+    margin: 12px 0 4px;
+    font-size: clamp(44px, 9vw, 92px);
+    color: var(--or);
+    text-shadow: 0 4px 0 #1a1f2b, 0 0 24px rgba(0,0,0,.5);
+    letter-spacing: 1px;
+  }
+  .slogan { margin: 0 0 24px; font-size: clamp(18px, 3vw, 24px); font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,.6); }
+  .boutons { display: flex; flex-wrap: wrap; gap: 14px; }
+  .bouton {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 26px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-family: "Fredoka", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .bouton small { font-family: "Nunito", sans-serif; font-size: 14px; font-weight: 600; opacity: .85; }
+  .bouton:hover { transform: translateY(-3px); }
+  .bouton-or { background: var(--or); color: #2a1f05; box-shadow: 0 6px 0 var(--or-fonce); }
+  .bouton-bleu { background: var(--bleu); color: #fff; box-shadow: 0 6px 0 var(--bleu-fonce); }
+  .bouton:active { transform: translateY(3px); box-shadow: none; }
+
+  /* --- Les parties de la page --- */
+  section { padding: 56px 0; }
+  section h2 { font-size: clamp(28px, 5vw, 40px); margin: 0 0 20px; }
+  .intro { font-size: 19px; color: var(--doux); max-width: 760px; }
+  .intro strong { color: var(--texte); }
+
+  .galerie {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .galerie figure { margin: 0; border-radius: 14px; overflow: hidden; background: var(--carte); border: 1px solid var(--bord); }
+  .galerie img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .galerie figcaption { padding: 10px 14px; font-weight: 600; color: var(--doux); }
+
+  .cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 18px; }
+  .carte .emoji { font-size: 32px; }
+  .carte h3 { margin: 6px 0 6px; font-size: 21px; }
+  .carte p { margin: 0; color: var(--doux); }
+
+  .etapes { counter-reset: etape; list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .etapes li {
+    counter-increment: etape;
+    position: relative;
+    padding: 14px 16px 14px 62px;
+    background: var(--carte);
+    border: 1px solid var(--bord);
+    border-radius: 14px;
+  }
+  .etapes li::before {
+    content: counter(etape);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--or);
+    color: #2a1f05;
+    font: 700 19px/34px "Fredoka", sans-serif;
+    text-align: center;
+  }
+  .note { color: var(--doux); font-size: 15px; }
+
+  .deux { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  table { width: 100%; border-collapse: collapse; background: var(--carte); border-radius: 14px; overflow: hidden; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--bord); }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { font-weight: 800; color: var(--or); white-space: nowrap; }
+  h3.titre-table { font-size: 22px; margin: 0 0 10px; }
+
+  .bug {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2b2f63, #3a2a5e);
+    border: 1px solid var(--bord);
+  }
+  .bug h2 { margin: 0 0 6px; }
+  .bug p { margin: 0; color: var(--doux); max-width: 560px; }
+  .lien-bug {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 14px;
+    background: #ff8a80;
+    color: #3a0d0a;
+    font: 600 20px "Fredoka", sans-serif;
+    text-decoration: none;
+    box-shadow: 0 5px 0 #d65a50;
+  }
+  .lien-bug:hover { transform: translateY(-2px); }
+
+  footer { padding: 40px 0 56px; color: var(--doux); font-size: 15px; border-top: 1px solid var(--bord); }
+  footer h2 { font-size: 24px; color: var(--texte); }
+  footer ul { padding-left: 20px; }
+  .cache { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="haut">
+  <div class="contenu">
+    <span class="badge">Bêta · v0.1.0 · Gratuit</span>
+    <h1>CUBERRA ISLES</h1>
+    <p class="slogan">Une petite île, un cube, et tout un monde à explorer.</p>
+    <!-- Un seul bouton, selon l'appareil (voir le script en bas de la page) -->
+    <div class="boutons">
+      <a class="bouton bouton-or" data-pour="windows" href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe">
+        ⬇️ Installer pour Windows
+        <small>Windows 10 et 11 · environ 150 Mo</small>
+      </a>
+      <a class="bouton bouton-or" data-pour="android-apk" href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk">
+        ⬇️ Installer pour Android
+        <small>Fichier .apk</small>
+      </a>
+      <a class="bouton bouton-bleu" data-pour="apple android autre" href="jouer/">
+        ▶️ Jouer
+        <small>Directement ici, sans rien installer</small>
+      </a>
+    </div>
+    <p class="note" data-pour="iphone android">📱 Tourne l'écran à l'horizontale pour jouer.</p>
+    <p class="note" data-pour="android">📦 La version Android à installer arrive bientôt. En attendant, tu peux jouer directement ici !</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="contenu">
+      <h2>🗺️ L'histoire</h2>
+      <p class="intro">Sur ton île tranquille, le vieil Orban te raconte la légende du <strong>Grand Roi Démon</strong>, enfermé tout au fond du monde il y a très longtemps… Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver sur les îles… À toi de prendre la mer, d'explorer le monde et de découvrir la vérité !</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu">
+      <h2>📸 Dans le jeu</h2>
+      <div class="galerie">
+        <figure><img src="images/village.jpg" alt="Le village de départ, avec l'atelier de Pépin" loading="lazy"><figcaption>Ton village, et l'atelier de Pépin</figcaption></figure>
+        <figure><img src="images/cite-d-or.jpg" alt="Le marché de la Cité d'Or" loading="lazy"><figcaption>Le marché de la Cité d'Or</figcaption></figure>
+        <figure><img src="images/pics.jpg" alt="Un village dans la neige" loading="lazy"><figcaption>Un village dans la neige</figcaption></figure>
+        <figure><img src="images/oasis.jpg" alt="L'oasis du désert et ses palmiers" loading="lazy"><figcaption>L'oasis du désert</figcaption></figure>
+        <figure><img src="images/foret.jpg" alt="Une maison dans les arbres de la grande forêt" loading="lazy"><figcaption>Une maison dans les arbres</figcaption></figure>
+        <figure><img src="images/village-nuit.jpg" alt="Le village, la nuit" loading="lazy"><figcaption>Le village, la nuit</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu">
+      <h2>✨ Ce qui t'attend</h2>
+      <div class="cartes">
+        <div class="carte"><div class="emoji">🏝️</div><h3>Plein d'îles à explorer</h3><p>De la neige, du sable, des forêts, des grottes… et quelques secrets bien cachés.</p></div>
+        <div class="carte"><div class="emoji">⚔️</div><h3>Armes et outils</h3><p>Ramasse des ressources : Pépin l'artisan te fabrique des armes et des outils de plus en plus puissants.</p></div>
+        <div class="carte"><div class="emoji">🐉</div><h3>Des combats</h3><p>Des monstres la nuit… et de redoutables gardiens, pour les plus courageux.</p></div>
+        <div class="carte"><div class="emoji">⛵</div><h3>Ton bateau</h3><p>Pour voyager d'île en île, et découvrir ce qu'il y a au-delà de l'horizon.</p></div>
+        <div class="carte"><div class="emoji">🤿</div><h3>La plongée</h3><p>Que se cache-t-il sous l'eau ? Il faudra plonger pour le savoir.</p></div>
+        <div class="carte"><div class="emoji">🏠</div><h3>Ta maison</h3><p>À agrandir, des quêtes pour aider les habitants, et des animaux partout.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu deux">
+      <div data-pour="windows">
+        <h2>⬇️ Installer sur Windows</h2>
+        <ol class="etapes">
+          <li>Clique sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>Installer pour Windows</b></a>.</li>
+          <li>Ouvre le fichier <b>CuberraIsles.exe</b> téléchargé : il n'y a rien d'autre à installer.</li>
+          <li>Si Windows affiche « Windows a protégé votre ordinateur », clique sur <b>« Informations complémentaires »</b> puis <b>« Exécuter quand même »</b>.</li>
+        </ol>
+        <p class="note">🔄 Les mises à jour sont automatiques : le jeu les télécharge pendant que tu joues, et les installe quand tu le fermes. Tes sauvegardes sont gardées.</p>
+      </div>
+      <div data-pour="android-apk">
+        <h2>⬇️ Installer sur Android</h2>
+        <ol class="etapes">
+          <li>Appuie sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk"><b>Installer pour Android</b></a>.</li>
+          <li>Ouvre le fichier <b>CuberraIsles.apk</b> téléchargé.</li>
+          <li>Si le téléphone le demande, autorise l'installation d'applications depuis ton navigateur.</li>
+        </ol>
+      </div>
+      <div data-pour="apple android autre">
+        <h2>▶️ Jouer directement ici</h2>
+        <ol class="etapes">
+          <li>Appuie sur <a href="jouer/"><b>Jouer</b></a> et attends le chargement (environ 80 Mo, la première fois).</li>
+          <li>Sur iPhone, iPad et Android : tourne l'écran à l'horizontale. Le <b>joystick</b> est à gauche, les boutons à droite.</li>
+          <li>Sur Mac et ordinateur : joue au clavier (les commandes sont juste en dessous).</li>
+        </ol>
+        <p class="note">🧪 La version navigateur est toute nouvelle : si quelque chose ne marche pas, signale-le !</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu deux">
+      <div>
+        <h3 class="titre-table">⌨️ Au clavier</h3>
+        <table>
+          <tr><td>ZQSD / flèches</td><td>Se déplacer</td></tr>
+          <tr><td>Espace / clic</td><td>Frapper, tirer</td></tr>
+          <tr><td>E</td><td>Parler, ouvrir, entrer, monter en bateau</td></tr>
+          <tr><td>1 à 9 / molette</td><td>Changer d'objet en main</td></tr>
+          <tr><td>F</td><td>Boire une potion</td></tr>
+          <tr><td>C</td><td>Plonger</td></tr>
+          <tr><td>I</td><td>Inventaire, quêtes et carte</td></tr>
+          <tr><td>Échap</td><td>Pause</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3 class="titre-table">👆 Au doigt</h3>
+        <table>
+          <tr><td>Joystick</td><td>Pose le pouce à gauche de l'écran pour te déplacer</td></tr>
+          <tr><td>Gros bouton</td><td>Frapper avec l'objet en main</td></tr>
+          <tr><td>E</td><td>Parler, ouvrir… (il s'allume quand il y a quelque chose)</td></tr>
+          <tr><td>Potion, vague</td><td>Boire une potion, plonger</td></tr>
+          <tr><td>Sac, pause</td><td>Inventaire et pause, en haut à droite</td></tr>
+          <tr><td>Écran</td><td>Touche-le pour faire avancer un dialogue</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu">
+      <div class="bug">
+        <div>
+          <h2>🐛 Tu as trouvé un bug ?</h2>
+          <p>C'est une version bêta : il reste sûrement de petits problèmes. Dis-le-nous, on le corrigera dans la prochaine mise à jour ! (Il faut un compte GitHub, c'est gratuit.)</p>
+        </div>
+        <a class="lien-bug" href="https://github.com/maher-mme/cuberra-isles/issues/new/choose">Signaler un bug</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="contenu">
+    <h2>✨ Crédits</h2>
+    <ul>
+      <li><b>Création, idées et conception</b> : obstinate</li>
+      <li><b>Programmation et dessins</b> (tout est dessiné par le code) : avec l'aide de Claude (Anthropic)</li>
+      <li><b>Musiques</b> (licence <a href="https://pixabay.com/service/license-summary/">Pixabay</a>) :
+        <a href="https://pixabay.com/fr/users/osynthw-50380892/">Osynthw</a>,
+        <a href="https://pixabay.com/fr/users/lux-aeterna-49389944/">Lux-aeterna</a>,
+        <a href="https://pixabay.com/fr/users/elijah_k-40677025/">elijah_k</a>,
+        <a href="https://pixabay.com/fr/users/marlowemusic-54643571/">marlowemusic</a>,
+        <a href="https://pixabay.com/fr/users/hitslab-47305729/">hitslab</a>,
+        <a href="https://pixabay.com/fr/users/the_mountain-3616498/">TheMountain</a>,
+        <a href="https://pixabay.com/fr/users/epic_musictracks-27466606/">epic_musictracks</a>,
+        <a href="https://pixabay.com/fr/users/sonican-38947841/">Sonican</a>,
+        <a href="https://pixabay.com/fr/users/nastelbom-48128234/">nastelbom</a>,
+        <a href="https://pixabay.com/fr/users/geoffharvey-9096471/">GeoffHarvey</a></li>
+      <li><b>Bruitages</b> : fabriqués par le code du jeu</li>
+      <li><b>Moteur</b> : <a href="https://godotengine.org">Godot Engine</a> (licence MIT)</li>
+    </ul>
+    <p>© obstinate. Le jeu est gratuit, mais merci de ne pas le revendre ni le republier ailleurs. · <a href="https://github.com/maher-mme/cuberra-isles">Le projet sur GitHub</a></p>
+  </div>
+</footer>
+
+<script>
+  // Un bouton différent selon l'appareil :
+  //  - Windows : installer le .exe ;
+  //  - Android : installer le .apk (quand il sera prêt ; sinon, jouer ici) ;
+  //  - iPhone, iPad, Mac et les autres : jouer directement sur le site.
+  var APK_PRET = false;
+  var ua = navigator.userAgent;
+  var ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var plateformes;
+  if (/Android/i.test(ua)) {
+    plateformes = APK_PRET ? ["android-apk"] : ["android"];
+  } else if (ios) {
+    plateformes = ["apple", "iphone"];
+  } else if (/Macintosh|Mac OS X/i.test(ua)) {
+    plateformes = ["apple"];
+  } else if (/Windows/i.test(ua)) {
+    plateformes = ["windows"];
+  } else {
+    plateformes = ["autre"];
+  }
+  document.querySelectorAll("[data-pour]").forEach(function (element) {
+    var pour = element.getAttribute("data-pour").split(" ");
+    var montrer = pour.some(function (p) { return plateformes.indexOf(p) !== -1; });
+    element.classList.toggle("cache", !montrer);
+  });
+</script>
+</body>
+</html>
