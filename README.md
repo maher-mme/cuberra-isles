@@ -9,14 +9,19 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 <p align="center">
   🌐 <a href="https://maher-mme.github.io/cuberra-isles/"><b>Le site du jeu</b></a> ·
-  <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>⬇️ Télécharger pour Windows</b></a> ·
+  <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>⬇️ Windows</b></a> ·
+  <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk"><b>🤖 Android</b></a> ·
   <a href="https://maher-mme.github.io/cuberra-isles/jouer/"><b>▶️ Jouer dans le navigateur</b></a>
 </p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.2)
+## 🆕 Quoi de neuf ? (v0.1.3)
 
+- 🤖 **La version Android est là !** Télécharge [CuberraIsles.apk](https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk) et installe-la sur ton téléphone.
+- 📱↔️ **Le jeu se joue à l'horizontale** sur tous les téléphones et tablettes.
+
+Avant (v0.1.2) :
 - ⚡ **Le jeu se charge deux fois plus vite** et utilise bien moins de mémoire.
 - 🔊 **Le son marche sur téléphone** dans la version navigateur.
 - 🪨 **Des grottes plus vivantes** (v0.1.1) : champignons qui luisent, flaques, cristaux…
@@ -46,7 +51,7 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 
 ▶️ **Sans rien installer** : [joue directement dans le navigateur](https://maher-mme.github.io/cuberra-isles/jouer/) (iPhone, iPad, Android, Mac et PC).
 
-📱 **Bientôt** : une version Android à installer.
+🤖 **Sur Android** : télécharge **[CuberraIsles.apk](https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk)** et ouvre-le. Si le téléphone le demande, autorise l'installation depuis ton navigateur. Quand une nouvelle version sort, le jeu te prévient dans le menu.
 
 ## ⌨️ Les commandes
 

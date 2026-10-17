@@ -93,7 +93,47 @@ body {
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
-	<script>
+	<style>
+/* Téléphone tenu debout : on demande de le tourner (le jeu se joue couché). */
+#tourne-ecran { display: none; }
+@media (orientation: portrait) and (pointer: coarse) {
+	#tourne-ecran {
+		display: flex; position: fixed; inset: 0; z-index: 1000; flex-direction: column;
+		align-items: center; justify-content: center; gap: 18px; padding: 24px; text-align: center;
+		background: #141432; color: #f2c14e; font: 700 24px/1.3 sans-serif;
+	}
+	#tourne-ecran span { font-size: 64px; }
+	#tourne-ecran small { color: #b8bde6; font: 400 16px/1.4 sans-serif; }
+}
+</style>
+<script>
+// Au premier toucher, sur téléphone : plein écran, et bloqué à l'horizontale
+// (Android). Sur iPhone, le navigateur ne le permet pas : le message
+// « Tourne ton téléphone » s'affiche quand il est tenu debout.
+(function () {
+	var fait = false;
+	function paysage() {
+		if (fait || !matchMedia("(pointer: coarse)").matches) return;
+		fait = true;
+		var page = document.documentElement;
+		var demande = page.requestFullscreen || page.webkitRequestFullscreen;
+		if (!demande) return;
+		Promise.resolve(demande.call(page)).then(function () {
+			if (screen.orientation && screen.orientation.lock) {
+				return screen.orientation.lock("landscape");
+			}
+		}).catch(function () {});
+	}
+	window.addEventListener("touchend", paysage, true);
+	document.addEventListener("DOMContentLoaded", function () {
+		var message = document.createElement("div");
+		message.id = "tourne-ecran";
+		message.innerHTML = "<span>📱↻</span>Tourne ton téléphone à l'horizontale<small>Cuberra Isles se joue avec le téléphone couché.</small>";
+		document.body.appendChild(message);
+	});
+})();
+</script>
+<script>
 // Le son sur téléphone : les navigateurs bloquent le son tant qu'on n'a pas
 // touché l'écran. On garde les « contextes audio » créés par le jeu, et on les
 // réveille au premier toucher (ou clic, ou touche du clavier).
@@ -199,7 +239,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43499160,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43500072,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
