@@ -44,7 +44,7 @@
     min-height: min(92vh, 760px);
     display: flex;
     align-items: flex-end;
-    background: url("images/affiche.jpg") center 30% / cover no-repeat;
+    background: url("images/affiche-fond.jpg") 35% 30% / cover no-repeat;
   }
   .haut::after {
     content: "";
@@ -171,22 +171,24 @@
   footer h2 { font-size: 24px; color: var(--texte); }
   footer ul { padding-left: 20px; }
   .cache { display: none !important; }
+  .bouton-petit { font-size: 18px; padding: 12px 20px; }
+  .deja { display: none; }
 </style>
 </head>
 <body>
 
 <header class="haut">
   <div class="contenu">
-    <span class="badge">Bêta · v0.1.0 · Gratuit</span>
+    <span class="badge">Bêta · v0.1.1 · Gratuit</span>
     <h1>CUBERRA ISLES</h1>
     <p class="slogan">Une petite île, un cube, et tout un monde à explorer.</p>
-    <!-- Un seul bouton, selon l'appareil (voir le script en bas de la page) -->
+    <!-- Les boutons, selon l'appareil (voir le script en bas de la page) -->
     <div class="boutons">
-      <a class="bouton bouton-or" data-pour="windows" href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe">
+      <a class="bouton bouton-or" data-pour="windows" data-telecharger href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe">
         ⬇️ Installer pour Windows
         <small>Windows 10 et 11 · environ 150 Mo</small>
       </a>
-      <a class="bouton bouton-or" data-pour="android-apk" href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk">
+      <a class="bouton bouton-or" data-pour="android-apk" data-telecharger href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk">
         ⬇️ Installer pour Android
         <small>Fichier .apk</small>
       </a>
@@ -194,8 +196,14 @@
         ▶️ Jouer
         <small>Directement ici, sans rien installer</small>
       </a>
+      <a class="bouton bouton-bleu bouton-petit" data-pour="windows android-apk" href="jouer/">
+        ▶️ Jouer dans le navigateur
+        <small>Sans rien installer, pour garder de la place</small>
+      </a>
     </div>
-    <p class="note" data-pour="iphone android">📱 Tourne l'écran à l'horizontale pour jouer.</p>
+    <p class="note deja" data-deja>✅ Tu as déjà téléchargé le jeu sur cet appareil : il se met à jour tout seul !
+      <a href="#" id="retelecharger">Le retélécharger</a></p>
+    <p class="note" data-pour="iphone android android-apk">📱 Tourne l'écran à l'horizontale pour jouer.</p>
     <p class="note" data-pour="android">📦 La version Android à installer arrive bientôt. En attendant, tu peux jouer directement ici !</p>
   </div>
 </header>
@@ -212,11 +220,11 @@
     <div class="contenu">
       <h2>📸 Dans le jeu</h2>
       <div class="galerie">
-        <figure><img src="images/village.jpg" alt="Le village de départ, avec l'atelier de Pépin" loading="lazy"><figcaption>Ton village, et l'atelier de Pépin</figcaption></figure>
-        <figure><img src="images/cite-d-or.jpg" alt="Le marché de la Cité d'Or" loading="lazy"><figcaption>Le marché de la Cité d'Or</figcaption></figure>
-        <figure><img src="images/pics.jpg" alt="Un village dans la neige" loading="lazy"><figcaption>Un village dans la neige</figcaption></figure>
-        <figure><img src="images/oasis.jpg" alt="L'oasis du désert et ses palmiers" loading="lazy"><figcaption>L'oasis du désert</figcaption></figure>
-        <figure><img src="images/foret.jpg" alt="Une maison dans les arbres de la grande forêt" loading="lazy"><figcaption>Une maison dans les arbres</figcaption></figure>
+        <figure><img src="images/village.jpg" alt="Le village de départ" loading="lazy"><figcaption>Ton village, là où tout commence</figcaption></figure>
+        <figure><img src="images/sombrebois.jpg" alt="Une île sombre avec une grotte et une cabane" loading="lazy"><figcaption>Une île sombre… et sa grotte</figcaption></figure>
+        <figure><img src="images/grotte.jpg" alt="L'intérieur d'une grotte, avec des champignons qui luisent" loading="lazy"><figcaption>Au fond de la grotte</figcaption></figure>
+        <figure><img src="images/village-sombrebois.jpg" alt="Un village caché dans les bois" loading="lazy"><figcaption>Un village caché dans les bois</figcaption></figure>
+        <figure><img src="images/bateau.jpg" alt="Le cube dans sa barque, en pleine mer" loading="lazy"><figcaption>En route vers d'autres îles</figcaption></figure>
         <figure><img src="images/village-nuit.jpg" alt="Le village, la nuit" loading="lazy"><figcaption>Le village, la nuit</figcaption></figure>
       </div>
     </div>
@@ -226,12 +234,12 @@
     <div class="contenu">
       <h2>✨ Ce qui t'attend</h2>
       <div class="cartes">
-        <div class="carte"><div class="emoji">🏝️</div><h3>Plein d'îles à explorer</h3><p>De la neige, du sable, des forêts, des grottes… et quelques secrets bien cachés.</p></div>
-        <div class="carte"><div class="emoji">⚔️</div><h3>Armes et outils</h3><p>Ramasse des ressources : Pépin l'artisan te fabrique des armes et des outils de plus en plus puissants.</p></div>
-        <div class="carte"><div class="emoji">🐉</div><h3>Des combats</h3><p>Des monstres la nuit… et de redoutables gardiens, pour les plus courageux.</p></div>
-        <div class="carte"><div class="emoji">⛵</div><h3>Ton bateau</h3><p>Pour voyager d'île en île, et découvrir ce qu'il y a au-delà de l'horizon.</p></div>
-        <div class="carte"><div class="emoji">🤿</div><h3>La plongée</h3><p>Que se cache-t-il sous l'eau ? Il faudra plonger pour le savoir.</p></div>
-        <div class="carte"><div class="emoji">🏠</div><h3>Ta maison</h3><p>À agrandir, des quêtes pour aider les habitants, et des animaux partout.</p></div>
+        <div class="carte"><div class="emoji">🧭</div><h3>Explore</h3><p>Prends la mer et découvre ce qui se cache au-delà de l'horizon.</p></div>
+        <div class="carte"><div class="emoji">⚔️</div><h3>Deviens plus fort</h3><p>Ramasse des ressources et fais fabriquer de meilleures armes et de meilleurs outils.</p></div>
+        <div class="carte"><div class="emoji">🌙</div><h3>Méfie-toi de la nuit</h3><p>Quand le soleil se couche, les monstres sortent…</p></div>
+        <div class="carte"><div class="emoji">🤝</div><h3>Aide les habitants</h3><p>Chaque village a ses histoires, et des services à te demander.</p></div>
+        <div class="carte"><div class="emoji">🏠</div><h3>Ta maison</h3><p>Un endroit à toi, à agrandir au fil de l'aventure.</p></div>
+        <div class="carte"><div class="emoji">❓</div><h3>Et des secrets…</h3><p>Le reste ? C'est à toi de le découvrir !</p></div>
       </div>
     </div>
   </section>
@@ -255,7 +263,7 @@
           <li>Si le téléphone le demande, autorise l'installation d'applications depuis ton navigateur.</li>
         </ol>
       </div>
-      <div data-pour="apple android autre">
+      <div data-pour="apple android autre windows android-apk">
         <h2>▶️ Jouer directement ici</h2>
         <ol class="etapes">
           <li>Appuie sur <a href="jouer/"><b>Jouer</b></a> et attends le chargement (environ 80 Mo, la première fois).</li>
@@ -334,10 +342,12 @@
 </footer>
 
 <script>
-  // Un bouton différent selon l'appareil :
-  //  - Windows : installer le .exe ;
-  //  - Android : installer le .apk (quand il sera prêt ; sinon, jouer ici) ;
+  // Les boutons, selon l'appareil :
+  //  - Windows : installer le .exe (et, en plus petit, jouer dans le navigateur) ;
+  //  - Android : installer le .apk quand il sera prêt (sinon, jouer ici) ;
   //  - iPhone, iPad, Mac et les autres : jouer directement sur le site.
+  // Une fois le jeu téléchargé, le bouton « Installer » disparaît sur cet
+  // appareil (le jeu se met à jour tout seul).
   var APK_PRET = false;
   var ua = navigator.userAgent;
   var ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -353,11 +363,38 @@
   } else {
     plateformes = ["autre"];
   }
-  document.querySelectorAll("[data-pour]").forEach(function (element) {
-    var pour = element.getAttribute("data-pour").split(" ");
-    var montrer = pour.some(function (p) { return plateformes.indexOf(p) !== -1; });
-    element.classList.toggle("cache", !montrer);
+  var dejaTelecharge = false;
+  try { dejaTelecharge = localStorage.getItem("cuberra-telecharge") === "oui"; } catch (e) {}
+
+  function miseEnPage() {
+    document.querySelectorAll("[data-pour]").forEach(function (element) {
+      var pour = element.getAttribute("data-pour").split(" ");
+      var montrer = pour.some(function (p) { return plateformes.indexOf(p) !== -1; });
+      if (dejaTelecharge && element.hasAttribute("data-telecharger")) {
+        montrer = false;
+      }
+      element.classList.toggle("cache", !montrer);
+    });
+    var installable = plateformes.indexOf("windows") !== -1 || plateformes.indexOf("android-apk") !== -1;
+    document.querySelectorAll("[data-deja]").forEach(function (element) {
+      element.style.display = dejaTelecharge && installable ? "block" : "none";
+    });
+  }
+
+  document.querySelectorAll("[data-telecharger]").forEach(function (lien) {
+    lien.addEventListener("click", function () {
+      try { localStorage.setItem("cuberra-telecharge", "oui"); } catch (e) {}
+      // (On laisse le téléchargement démarrer avant de cacher le bouton.)
+      setTimeout(function () { dejaTelecharge = true; miseEnPage(); }, 1500);
+    });
   });
+  document.getElementById("retelecharger").addEventListener("click", function (evenement) {
+    evenement.preventDefault();
+    try { localStorage.removeItem("cuberra-telecharge"); } catch (e) {}
+    dejaTelecharge = false;
+    miseEnPage();
+  });
+  miseEnPage();
 </script>
 </body>
 </html>

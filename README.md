@@ -21,12 +21,10 @@ Sur ton île tranquille, le vieil Orban te raconte la légende du **Grand Roi D�
 Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver sur les îles…
 À toi de prendre la mer, d'explorer le monde et de découvrir la vérité !
 
-- 🏝️ **Plein d'îles à explorer** : de la neige, du sable, des forêts, des grottes… et quelques secrets bien cachés.
-- ⚔️ **Des armes et des outils** de plus en plus puissants, à fabriquer chez Pépin l'artisan.
-- 🐉 **Des combats** : des monstres la nuit, et de redoutables gardiens pour les plus courageux.
-- ⛵ **Ton bateau**, pour voyager d'île en île.
-- 🤿 **La plongée** : que se cache-t-il sous l'eau ?
-- 🏠 **Ta maison** à agrandir, des quêtes pour aider les habitants, des animaux partout.
+- 🧭 **Explore** : prends la mer et découvre ce qui se cache au-delà de l'horizon.
+- ⚔️ **Deviens plus fort** : fais fabriquer de meilleures armes et de meilleurs outils.
+- 🌙 **Méfie-toi de la nuit**, aide les habitants, agrandis ta maison…
+- ❓ **Et des secrets** : le reste, c'est à toi de le découvrir !
 
 ## ⬇️ Installer et jouer
 
@@ -37,7 +35,9 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 
 🔄 **Les mises à jour sont automatiques** : quand une nouvelle version sort, le jeu la télécharge pendant que tu joues, et l'installe quand tu le fermes. Tes sauvegardes sont gardées.
 
-📱 **Bientôt** : une version Android, et une version à jouer directement dans le navigateur (iPhone et iPad).
+▶️ **Sans rien installer** : [joue directement dans le navigateur](https://maher-mme.github.io/cuberra-isles/jouer/) (iPhone, iPad, Android, Mac et PC).
+
+📱 **Bientôt** : une version Android à installer.
 
 ## ⌨️ Les commandes
 
