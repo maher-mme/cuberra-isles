@@ -16,14 +16,14 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 ## 🎮 L'histoire
 
 Sur ton île tranquille, le vieil Orban te raconte la légende du **Grand Roi Démon**, enfermé tout au fond du monde il y a très longtemps…
-Mais des chevaliers à la couronne noire apparaissent, et ses serviteurs cherchent **quatre cristaux magiques** pour le réveiller.
-À toi de prendre la mer, d'explorer les îles et de l'arrêter !
+Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver sur les îles…
+À toi de prendre la mer, d'explorer le monde et de découvrir la vérité !
 
-- 🏝️ **Plus de 30 îles et grottes** à découvrir : la neige du nord, les déserts du sud, les montagnes de l'est, les grandes forêts de l'ouest… et des îles secrètes.
-- ⚔️ **Des armes et des outils** à fabriquer chez Pépin l'artisan, de l'épée en bois à l'épée électrique.
-- 🐉 **Des boss** au cœur des volcans, des pyramides et des arbres géants.
+- 🏝️ **Plein d'îles à explorer** : de la neige, du sable, des forêts, des grottes… et quelques secrets bien cachés.
+- ⚔️ **Des armes et des outils** de plus en plus puissants, à fabriquer chez Pépin l'artisan.
+- 🐉 **Des combats** : des monstres la nuit, et de redoutables gardiens pour les plus courageux.
 - ⛵ **Ton bateau**, pour voyager d'île en île.
-- 🤿 **La plongée** dans des lacs cachés, avec un casque aquatique.
+- 🤿 **La plongée** : que se cache-t-il sous l'eau ?
 - 🏠 **Ta maison** à agrandir, des quêtes pour aider les habitants, des animaux partout.
 
 ## ⬇️ Installer et jouer
@@ -59,7 +59,7 @@ Clique sur **« Signaler un bug »** dans le menu du jeu, ou va directement sur
 
 ## ✨ Crédits
 
-- **Création, idées et conception** : obstinate
+- **Création, idées et conception** : maher-mme
 - **Programmation et dessins** (tout est dessiné par le code) : avec l'aide de Claude (Anthropic)
 - **Musiques** (licence [Pixabay](https://pixabay.com/service/license-summary/)) :
   [Osynthw](https://pixabay.com/fr/users/osynthw-50380892/),
@@ -75,4 +75,4 @@ Clique sur **« Signaler un bug »** dans le menu du jeu, ou va directement sur
 - **Bruitages** : fabriqués par le code du jeu
 - **Moteur** : [Godot Engine](https://godotengine.org) (licence MIT)
 
-© obstinate. Tous droits réservés : le jeu est gratuit, mais merci de ne pas le revendre ni le republier ailleurs.
+© maher-mme. Tous droits réservés : le jeu est gratuit, mais merci de ne pas le revendre ni le republier ailleurs.
