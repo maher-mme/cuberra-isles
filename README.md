@@ -15,6 +15,15 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
+## 🆕 Quoi de neuf ? (v0.1.2)
+
+- ⚡ **Le jeu se charge deux fois plus vite** et utilise bien moins de mémoire.
+- 🔊 **Le son marche sur téléphone** dans la version navigateur.
+- 🪨 **Des grottes plus vivantes** (v0.1.1) : champignons qui luisent, flaques, cristaux…
+- 🖥️ **F11** pour le plein écran, et la même vue quelle que soit la taille de l'écran.
+
+👉 [Toutes les versions et leurs nouveautés](https://github.com/maher-mme/cuberra-isles/releases)
+
 ## 🎮 L'histoire
 
 Sur ton île tranquille, le vieil Orban te raconte la légende du **Grand Roi Démon**, enfermé tout au fond du monde il y a très longtemps…
@@ -41,6 +50,8 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 
 ## ⌨️ Les commandes
 
+### Au clavier
+
 | Touche | Action |
 |---|---|
 | **ZQSD** ou **flèches** | Se déplacer |
@@ -51,6 +62,18 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 | **C** | Plonger |
 | **I** | Inventaire, quêtes et carte |
 | **Échap** | Pause (et sauvegarde) |
+| **F11** | Plein écran |
+
+### Au doigt (téléphone et tablette)
+
+| Commande | Action |
+|---|---|
+| **Joystick** (pose le pouce à gauche) | Se déplacer |
+| **Gros bouton** | Frapper avec l'objet en main |
+| **E** (il s'allume quand il y a quelque chose) | Parler, ouvrir, entrer… |
+| **Potion**, **vague** | Boire une potion, plonger |
+| **Sac**, **pause** (en haut à droite) | Inventaire, pause |
+| **Toucher l'écran** | Faire avancer un dialogue |
 
 ## 🐛 Tu as trouvé un bug ?
 
