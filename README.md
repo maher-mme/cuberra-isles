@@ -16,8 +16,12 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.3)
+## 🆕 Quoi de neuf ? (v0.1.4)
 
+- 📱 **Plus fluide sur téléphone et tablette** : le jeu tourne à 30 images par seconde, bien régulières, et le téléphone chauffe beaucoup moins.
+- 🩺 **Infos techniques** dans les Options : pour nous aider à comprendre un problème (son, lenteur…).
+
+Avant (v0.1.3) :
 - 🤖 **La version Android est là !** Télécharge [CuberraIsles.apk](https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk) et installe-la sur ton téléphone.
 - 📱↔️ **Le jeu se joue à l'horizontale** sur tous les téléphones et tablettes.
 
@@ -51,7 +55,7 @@ Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver su
 
 ▶️ **Sans rien installer** : [joue directement dans le navigateur](https://maher-mme.github.io/cuberra-isles/jouer/) (iPhone, iPad, Android, Mac et PC).
 
-🤖 **Sur Android** : télécharge **[CuberraIsles.apk](https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk)** et ouvre-le. Si le téléphone le demande, autorise l'installation depuis ton navigateur. Quand une nouvelle version sort, le jeu te prévient dans le menu.
+🤖 **Sur Android** : télécharge **[CuberraIsles.apk](https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk)** et ouvre-le. Si le téléphone le demande, autorise l'installation depuis ton navigateur (avec un contrôle parental, un parent doit l'autoriser). Quand une nouvelle version sort, le jeu te prévient dans le menu.
 
 ## ⌨️ Les commandes
 
