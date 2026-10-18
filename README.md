@@ -16,8 +16,13 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.4)
+## 🆕 Quoi de neuf ? (v0.1.5)
 
+- 🔊 **Le son et la musique** dans la version navigateur (téléphone et tablette).
+- 🧊 **Plus de gels** quand on arrive près d'une île : elle se remplit petit à petit.
+- ⚡ **La lance électrique brille la nuit**, comme l'épée électrique.
+
+Avant (v0.1.4) :
 - 📱 **Plus fluide sur téléphone et tablette** : le jeu tourne à 30 images par seconde, bien régulières, et le téléphone chauffe beaucoup moins.
 - 🩺 **Infos techniques** dans les Options : pour nous aider à comprendre un problème (son, lenteur…).
 
