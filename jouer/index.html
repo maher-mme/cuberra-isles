@@ -93,26 +93,76 @@ body {
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
-	<style>
-/* Téléphone tenu debout : on demande de le tourner (le jeu se joue couché). */
-#tourne-ecran { display: none; }
-@media (orientation: portrait) and (pointer: coarse) {
-	#tourne-ecran {
-		display: flex; position: fixed; inset: 0; z-index: 1000; flex-direction: column;
-		align-items: center; justify-content: center; gap: 18px; padding: 24px; text-align: center;
-		background: #141432; color: #f2c14e; font: 700 24px/1.3 sans-serif;
-	}
-	#tourne-ecran span { font-size: 64px; }
-	#tourne-ecran small { color: #b8bde6; font: 400 16px/1.4 sans-serif; }
-}
-</style>
-<script>
-// Au premier toucher, sur téléphone : plein écran, et bloqué à l'horizontale
-// (Android). Sur iPhone, le navigateur ne le permet pas : le message
-// « Tourne ton téléphone » s'affiche quand il est tenu debout.
+	<script>
+// Toujours à l'horizontale : si le téléphone (ou la tablette) est tenu debout,
+// le jeu s'affiche couché (tourné d'un quart de tour) et remplit l'écran : on
+// tourne l'appareil pour jouer, sans aucun message. Les touchers sont
+// « retournés » pour que le jeu les reçoive au bon endroit.
+// Sur Android, au premier toucher, on passe aussi en plein écran bloqué à
+// l'horizontale (Apple ne le permet pas aux sites, d'où le quart de tour).
 (function () {
+	var tourne = false;
+	function miseEnPage() {
+		var canvas = document.getElementById("canvas");
+		if (!canvas) return;
+		var largeur = window.innerWidth;
+		var hauteur = window.innerHeight;
+		tourne = hauteur > largeur && matchMedia("(pointer: coarse)").matches;
+		var style = canvas.style;
+		style.position = "fixed";
+		style.top = "0px";
+		style.left = (tourne ? largeur : 0) + "px";
+		if (document.fullscreenElement || document.webkitFullscreenElement) {
+			if (!tourne) {
+				// En plein écran à l'horizontale, le jeu règle lui-même sa taille.
+				style.transform = "none";
+				return;
+			}
+			// Plein écran mais l'écran n'a pas pu être bloqué à l'horizontale :
+			// on en sort, et le quart de tour prend le relais.
+			var sortir = document.exitFullscreen || document.webkitExitFullscreen;
+			if (sortir) sortir.call(document);
+		}
+		var l = tourne ? hauteur : largeur;
+		var h = tourne ? largeur : hauteur;
+		var ratio = window.devicePixelRatio || 1;
+		style.width = l + "px";
+		style.height = h + "px";
+		style.transformOrigin = "0 0";
+		style.transform = tourne ? "rotate(90deg)" : "none";
+		var w = Math.round(l * ratio);
+		var hh = Math.round(h * ratio);
+		if (canvas.width !== w) canvas.width = w;
+		if (canvas.height !== hh) canvas.height = hh;
+	}
+	function retourner(liste) {
+		if (!liste) return;
+		var largeur = window.innerWidth;
+		var hauteur = window.innerHeight;
+		for (var i = 0; i < liste.length; i++) {
+			var t = liste[i];
+			if (t.cuberraRetourne) continue;
+			var x = t.clientY * largeur / hauteur;
+			var y = (largeur - t.clientX) * hauteur / largeur;
+			try {
+				Object.defineProperty(t, "clientX", {value: x});
+				Object.defineProperty(t, "clientY", {value: y});
+				Object.defineProperty(t, "pageX", {value: x});
+				Object.defineProperty(t, "pageY", {value: y});
+				Object.defineProperty(t, "cuberraRetourne", {value: true});
+			} catch (e) {}
+		}
+	}
+	["touchstart", "touchmove", "touchend", "touchcancel"].forEach(function (nom) {
+		window.addEventListener(nom, function (e) {
+			if (!tourne) return;
+			retourner(e.touches);
+			retourner(e.changedTouches);
+			retourner(e.targetTouches);
+		}, true);
+	});
 	var fait = false;
-	function paysage() {
+	window.addEventListener("touchend", function () {
 		if (fait || !matchMedia("(pointer: coarse)").matches) return;
 		fait = true;
 		var page = document.documentElement;
@@ -123,13 +173,12 @@ body {
 				return screen.orientation.lock("landscape");
 			}
 		}).catch(function () {});
-	}
-	window.addEventListener("touchend", paysage, true);
+	}, true);
+	window.addEventListener("resize", miseEnPage);
+	window.addEventListener("orientationchange", function () { setTimeout(miseEnPage, 150); });
 	document.addEventListener("DOMContentLoaded", function () {
-		var message = document.createElement("div");
-		message.id = "tourne-ecran";
-		message.innerHTML = "<span>📱↻</span>Tourne ton téléphone à l'horizontale<small>Cuberra Isles se joue avec le téléphone couché.</small>";
-		document.body.appendChild(message);
+		miseEnPage();
+		setInterval(miseEnPage, 1000);
 	});
 })();
 </script>
@@ -239,7 +288,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43506224,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43521520,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 

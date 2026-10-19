@@ -27,7 +27,7 @@ body:
     attributes:
       label: Version du jeu
       description: Elle est écrite en bas à droite du menu principal.
-      placeholder: "v0.1.6"
+      placeholder: "v0.1.7"
   - type: textarea
     id: capture
     attributes:

@@ -16,8 +16,13 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.6)
+## 🆕 Quoi de neuf ? (v0.1.7)
 
+- 🏝️ **Des îles secrètes** sont cachées aux quatre coins de la mer, avec leurs habitants, leurs animaux et leurs quêtes. Elles ne sont pas sur la carte : à toi de les trouver en bateau !
+- 📱↔️ **Toujours à l'horizontale** : dans le navigateur, même si le téléphone est tenu debout, le jeu s'affiche couché sur tout l'écran (plus de message « tourne ton téléphone »).
+- 🔊 **Infos techniques** : on voit tout de suite si le son de l'ordinateur n'a pas pu s'ouvrir.
+
+Avant (v0.1.6) :
 - 📱 **Mode économie sur téléphone et tablette** : l'image est dessinée en plus petit puis agrandie, avec moins de petits décors : beaucoup moins de lags.
 
 Avant (v0.1.5) :
