@@ -16,8 +16,11 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.5)
+## 🆕 Quoi de neuf ? (v0.1.6)
 
+- 📱 **Mode économie sur téléphone et tablette** : l'image est dessinée en plus petit puis agrandie, avec moins de petits décors : beaucoup moins de lags.
+
+Avant (v0.1.5) :
 - 🔊 **Le son et la musique** dans la version navigateur (téléphone et tablette).
 - 🧊 **Plus de gels** quand on arrive près d'une île : elle se remplit petit à petit.
 - ⚡ **La lance électrique brille la nuit**, comme l'épée électrique.
