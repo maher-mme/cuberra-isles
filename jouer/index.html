@@ -112,12 +112,7 @@ body {
 		style.position = "fixed";
 		style.top = "0px";
 		style.left = (tourne ? largeur : 0) + "px";
-		if (document.fullscreenElement || document.webkitFullscreenElement) {
-			if (!tourne) {
-				// En plein écran à l'horizontale, le jeu règle lui-même sa taille.
-				style.transform = "none";
-				return;
-			}
+		if (tourne && (document.fullscreenElement || document.webkitFullscreenElement)) {
 			// Plein écran mais l'écran n'a pas pu être bloqué à l'horizontale :
 			// on en sort, et le quart de tour prend le relais.
 			var sortir = document.exitFullscreen || document.webkitExitFullscreen;
@@ -219,15 +214,30 @@ body {
 <script>
 // Diagnostic : si le jeu reste bloqué après le chargement (ou en cas d'erreur),
 // on affiche en bas de l'écran ce qui se passe, pour pouvoir le signaler.
+// Le tout est aussi gardé dans le navigateur : avec ?diag, on revoit ce qui
+// s'est passé la fois d'avant (si le jeu s'était figé).
 (function () {
 	var lignes = [];
 	var debut = Date.now();
-	function ajouter(texte) {
+	var stockage = null;
+	var avant = [];
+	try {
+		stockage = window.localStorage;
+		avant = JSON.parse(stockage.getItem("cuberraDiagnostic") || "[]");
+	} catch (e) {}
+	// `etiquette` : une ligne d'état (« Son : », « Mémoire : »…) qui remplace
+	// la précédente du même genre, au lieu de s'ajouter.
+	function ajouter(texte, etiquette) {
+		if (etiquette) {
+			lignes = lignes.filter(function (ligne) { return ligne.indexOf(" " + etiquette) < 0; });
+			texte = etiquette + texte;
+		}
 		var temps = ((Date.now() - debut) / 1000).toFixed(1) + "s ";
 		lignes.push(temps + String(texte).slice(0, 220));
-		if (lignes.length > 14) lignes.shift();
+		if (lignes.length > 16) lignes.shift();
+		try { if (stockage) stockage.setItem("cuberraDiagnostic", JSON.stringify(lignes)); } catch (e) {}
 		var boite = document.getElementById("diagnostic");
-		if (boite) boite.textContent = lignes.join("\n");
+		if (boite) boite.textContent = (avant.length ? "— La fois d'avant —\n" + avant.join("\n") + "\n— Maintenant —\n" : "") + lignes.join("\n");
 	}
 	["log", "warn", "error"].forEach(function (sorte) {
 		var original = console[sorte];
@@ -240,31 +250,51 @@ body {
 	window.addEventListener("unhandledrejection", function (e) {
 		ajouter("ERREUR : " + ((e.reason && e.reason.message) || e.reason));
 	});
+	// Les gels de plus d'une seconde (le jeu ne répond plus pendant ce temps)
+	try {
+		new PerformanceObserver(function (liste) {
+			liste.getEntries().forEach(function (tache) {
+				if (tache.duration > 1000) ajouter("Gel de " + Math.round(tache.duration) + " ms");
+			});
+		}).observe({entryTypes: ["longtask"]});
+	} catch (e) {}
+	// La mémoire utilisée, et depuis combien de temps on joue
+	setInterval(function () {
+		var jeu = typeof engine !== "undefined" && engine.rtenv && engine.rtenv.HEAP8;
+		if (!jeu) return;
+		var page = performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) + " Mo" : "?";
+		ajouter("jeu " + Math.round(jeu.length / 1048576) + " Mo, page " + page + " (partie de " +
+			Math.round((Date.now() - debut) / 60000) + " min)", "Mémoire : ");
+	}, 10000);
 	document.addEventListener("DOMContentLoaded", function () {
 		var gl = document.createElement("canvas").getContext("webgl2");
 		ajouter("Appareil : " + navigator.userAgent);
-		ajouter("Mémoire : " + (navigator.deviceMemory || "?") + " Go · processeurs : " + (navigator.hardwareConcurrency || "?") +
+		ajouter("Mémoire de l'appareil : " + (navigator.deviceMemory || "?") + " Go · processeurs : " + (navigator.hardwareConcurrency || "?") +
 			" · WebGL2 : " + (gl ? "oui" : "NON") + " · écran : " + screen.width + "x" + screen.height);
+		var canvas = document.getElementById("canvas");
+		if (canvas) {
+			canvas.addEventListener("webglcontextlost", function () { ajouter("ERREUR : l'affichage (WebGL) a été perdu"); });
+		}
 		var boite = document.createElement("pre");
 		boite.id = "diagnostic";
 		boite.style.cssText = "position:fixed;left:0;right:0;bottom:0;max-height:50%;overflow:auto;margin:0;padding:8px;" +
 			"font:11px/1.35 monospace;background:rgba(0,0,0,.85);color:#7dff9a;z-index:999;display:none;white-space:pre-wrap";
 		document.body.appendChild(boite);
-		boite.textContent = lignes.join("\n");
+		ajouter("Page chargée");
 		var force = /diag/.test(location.search);
 		if (force) {
 			setInterval(function () {
 				var etats = (window.cuberraContextesAudio || []).map(function (c) {
 					return c.state + " " + c.sampleRate + "Hz";
 				});
-				ajouter("Son : " + (etats.length ? etats.join(", ") : "aucun contexte audio"));
+				ajouter(etats.length ? etats.join(", ") : "aucun contexte audio", "Son : ");
 			}, 3000);
 		}
 		setInterval(function () {
 			var statut = document.getElementById("status");
 			var bloque = statut && getComputedStyle(statut).visibility !== "hidden" && getComputedStyle(statut).display !== "none" &&
 				Date.now() - debut > 30000;
-			var erreur = /ERREUR|error :/.test(boite.textContent);
+			var erreur = /ERREUR|error :/.test(lignes.join("\n"));
 			boite.style.display = force || bloque || erreur ? "block" : "none";
 		}, 1000);
 	});
@@ -288,7 +318,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43521520,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43521632,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
