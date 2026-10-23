@@ -16,8 +16,19 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.8)
+## 🆕 Quoi de neuf ? (v0.1.9)
 
+- ⛵ **Nouvel écran de chargement** : la jauge est une mer bleue qui monte, et ton cube navigue sur son voilier tout au bout !
+- 🤿 **Le bouton pour plonger** (téléphone et tablette) est plus clair, et il n'apparaît que quand tu nages.
+- 🗺️ **Zoomer la carte sur téléphone** : avec deux doigts, ou avec les boutons + et −.
+- 📱 **Android** : le bouton « retour » ouvre le menu pause (au lieu de quitter sans sauvegarder). La partie est aussi sauvegardée quand tu passes à une autre appli ou à un autre onglet.
+- 🐛 **Plein de bugs corrigés**, par exemple :
+  - les chevaliers de l'Île Rougeante qui ne revenaient pas après un chargement (la quête restait bloquée) ;
+  - le clic qui ferme un dialogue ne fait plus frapper ;
+  - les fenêtres des maisons s'allument bien la nuit, et l'Île Fantôme a enfin son brouillard ;
+  - l'aigle géant ne s'envole plus au milieu de la mer.
+
+Avant (v0.1.8) :
 - 🧊 **Le jeu ne se fige plus dans le navigateur sur téléphone** : chaque musique était chargée en entier d'un coup dans la mémoire du téléphone, qui finissait par être pleine après quelques changements d'île. Maintenant, la musique est lue petit à petit : le jeu utilise environ 4 fois moins de mémoire.
 - 📐 En plein écran sur Android, l'image remplit bien tout l'écran.
 
