@@ -28,6 +28,8 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
   - les fenêtres des maisons s'allument bien la nuit, et l'Île Fantôme a enfin son brouillard ;
   - l'aigle géant ne s'envole plus au milieu de la mer.
 
+- 📲 **La version navigateur s'installe comme une appli** sur téléphone et tablette : une vraie icône, en plein écran, sans fichier à télécharger (donc sans message « appli inconnue »).
+
 Avant (v0.1.8) :
 - 🧊 **Le jeu ne se fige plus dans le navigateur sur téléphone** : chaque musique était chargée en entier d'un coup dans la mémoire du téléphone, qui finissait par être pleine après quelques changements d'île. Maintenant, la musique est lue petit à petit : le jeu utilise environ 4 fois moins de mémoire.
 - 📐 En plein écran sur Android, l'image remplit bien tout l'écran.

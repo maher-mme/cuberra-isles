@@ -92,6 +92,7 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+<link rel="manifest" href="index.manifest.json">
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
 	<script>
 // Toujours à l'horizontale : si le téléphone (ou la tablette) est tenu debout,
@@ -157,8 +158,11 @@ body {
 		}, true);
 	});
 	var fait = false;
-	window.addEventListener("touchend", function () {
+	window.addEventListener("touchend", function (e) {
 		if (fait || !matchMedia("(pointer: coarse)").matches) return;
+		if (e.target && e.target.closest && e.target.closest("#cuberra-installer")) return;
+		// (Déjà installé comme une appli : il est déjà en plein écran.)
+		if (matchMedia("(display-mode: fullscreen)").matches || matchMedia("(display-mode: standalone)").matches) return;
 		fait = true;
 		var page = document.documentElement;
 		var demande = page.requestFullscreen || page.webkitRequestFullscreen;
@@ -300,6 +304,97 @@ body {
 	});
 })();
 </script>
+<script>
+// Installer le jeu comme une appli (téléphone et tablette, dans le navigateur
+// seulement) : une vraie icône, en plein écran, et rien à télécharger, donc
+// aucun « fichier inconnu ». Chrome et Edge (Android) proposent l'installation :
+// on l'offre avec un bandeau. Sur iPhone et iPad, on explique comment faire.
+(function () {
+	function dejaInstalle() {
+		return matchMedia("(display-mode: fullscreen)").matches || matchMedia("(display-mode: standalone)").matches
+			|| navigator.standalone === true;
+	}
+	if (dejaInstalle() || !matchMedia("(pointer: coarse)").matches) return;
+	var stockage = null;
+	try { stockage = window.localStorage; } catch (e) {}
+	function refuse() {
+		try { return stockage !== null && stockage.getItem("cuberraInstallMasque") === "1"; } catch (e) { return false; }
+	}
+	var bandeau = null;
+	function masquer(pourToujours) {
+		if (bandeau) bandeau.remove();
+		bandeau = null;
+		if (pourToujours) {
+			try { if (stockage) stockage.setItem("cuberraInstallMasque", "1"); } catch (e) {}
+		}
+	}
+	// Le bandeau suit le jeu : s'il est affiché couché (téléphone debout), le
+	// bandeau l'est aussi, en haut de l'image du jeu.
+	function placer() {
+		if (!bandeau) return;
+		var largeur = window.innerWidth;
+		var hauteur = window.innerHeight;
+		// (Une largeur fixe : couché, il ne doit pas se tasser contre le bord.)
+		bandeau.style.width = Math.round(Math.min(560, Math.max(largeur, hauteur) * 0.86)) + "px";
+		var w = bandeau.offsetWidth;
+		var h = bandeau.offsetHeight;
+		if (hauteur > largeur) {
+			bandeau.style.left = (largeur - 12 - h / 2 - w / 2) + "px";
+			bandeau.style.top = (hauteur / 2 - h / 2) + "px";
+			bandeau.style.transform = "rotate(90deg)";
+		} else {
+			bandeau.style.left = (largeur / 2 - w / 2) + "px";
+			bandeau.style.top = "12px";
+			bandeau.style.transform = "none";
+		}
+	}
+	function montrer(texte, bouton, action) {
+		masquer(false);
+		bandeau = document.createElement("div");
+		bandeau.id = "cuberra-installer";
+		bandeau.style.cssText = "position:fixed;z-index:1001;box-sizing:border-box;display:flex;align-items:center;gap:10px;" +
+			"padding:10px 12px;border-radius:14px;background:rgba(20,24,44,.94);color:#fff;font:15px/1.35 sans-serif;" +
+			"box-shadow:0 4px 18px rgba(0,0,0,.4);border:2px solid #e0b84a";
+		var mot = document.createElement("span");
+		mot.textContent = texte;
+		bandeau.appendChild(mot);
+		if (bouton) {
+			var b = document.createElement("button");
+			b.textContent = bouton;
+			b.style.cssText = "flex:none;padding:8px 14px;border:0;border-radius:10px;background:#e0b84a;color:#1a1f2b;font:bold 15px sans-serif";
+			b.addEventListener("click", action);
+			bandeau.appendChild(b);
+		}
+		var fermer = document.createElement("button");
+		fermer.textContent = "✕";
+		fermer.setAttribute("aria-label", "Fermer");
+		fermer.style.cssText = "flex:none;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;font:16px sans-serif";
+		fermer.addEventListener("click", function () { masquer(true); });
+		bandeau.appendChild(fermer);
+		document.body.appendChild(bandeau);
+		placer();
+		// Il s'en va tout seul au bout d'un moment (il reviendra la prochaine fois).
+		setTimeout(function () { masquer(false); }, 25000);
+	}
+	window.addEventListener("resize", placer);
+	window.addEventListener("beforeinstallprompt", function (e) {
+		e.preventDefault();
+		if (refuse()) return;
+		var invitation = e;
+		montrer("📲 Installe le jeu comme une appli : une vraie icône, en plein écran, sans fichier à télécharger !", "Installer", function () {
+			invitation.prompt();
+			invitation.userChoice.then(function (choix) { masquer(choix.outcome === "accepted"); });
+		});
+	});
+	window.addEventListener("appinstalled", function () { masquer(true); });
+	var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+	if (apple && !refuse()) {
+		document.addEventListener("DOMContentLoaded", function () {
+			montrer("📲 Pour installer le jeu comme une appli : touche Partager (le carré avec une flèche), puis « Sur l'écran d'accueil ».", "", null);
+		});
+	}
+})();
+</script>
 </head>
 	<body>
 		<canvas id="canvas">
@@ -318,7 +413,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43584196,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43584196,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
