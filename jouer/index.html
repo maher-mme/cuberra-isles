@@ -216,6 +216,141 @@ body {
 })();
 </script>
 <script>
+// La musique, dans le navigateur : elle est jouée par le lecteur audio du
+// navigateur (un élément <audio>, branché sur un « contexte audio » pour régler
+// le volume, même sur iPhone), et pas par le moteur du jeu. Le navigateur la
+// décode à part, petit à petit : elle ne saute jamais quand le jeu ralentit un
+// instant, et ne prend presque pas de mémoire. Le jeu donne chaque morceau une
+// fois (voir GameSettings) ; fondu de 2 secondes entre deux morceaux.
+// Quand la page est cachée (autre appli, autre onglet, écran éteint), tout le
+// son se met en pause, et reprend au retour.
+(function () {
+	var FONDU = 2.0;
+	var GARDEES = 4;
+	var Contexte = window.AudioContext || window.webkitAudioContext;
+	if (!Contexte) return;
+	var ctx = null;
+	var general = null;
+	var volume = 0.5;
+	var pistes = {};
+	var ordre = [];
+	var lecteurs = [];
+	var actuel = null;
+	function contexte() {
+		if (!ctx) {
+			// (Créé avec l'enveloppe du son, plus haut : réveillé au premier toucher.)
+			ctx = new Contexte();
+			general = ctx.createGain();
+			general.gain.value = volume;
+			general.connect(ctx.destination);
+		}
+		return ctx;
+	}
+	function fondu(lecteur, cible) {
+		var c = contexte();
+		var g = lecteur.gain.gain;
+		g.cancelScheduledValues(c.currentTime);
+		g.setValueAtTime(g.value, c.currentTime);
+		g.linearRampToValueAtTime(cible, c.currentTime + FONDU);
+		if (cible > 0) return;
+		setTimeout(function () {
+			if (lecteur === actuel) return;
+			lecteur.el.pause();
+			lecteur.el.removeAttribute("src");
+			lecteur.el.load();
+			lecteur.source.disconnect();
+			lecteur.gain.disconnect();
+			lecteurs = lecteurs.filter(function (l) { return l !== lecteur; });
+		}, FONDU * 1000 + 200);
+	}
+	function lancer(lecteur) {
+		if (document.hidden) return;
+		var essai = lecteur.el.play();
+		if (essai && essai.catch) essai.catch(function () {});
+	}
+	window.cuberraMusique = {
+		// Le jeu a-t-il déjà donné ce morceau ?
+		a: function (nom) { return !!pistes[nom]; },
+		// Le jeu donne un morceau (le fichier MP3, en base64).
+		ajouter: function (nom, base64) {
+			if (pistes[nom]) return;
+			var texte = atob(base64);
+			var octets = new Uint8Array(texte.length);
+			for (var i = 0; i < texte.length; i++) octets[i] = texte.charCodeAt(i);
+			pistes[nom] = URL.createObjectURL(new Blob([octets], {type: "audio/mpeg"}));
+			ordre.push(nom);
+			// (On ne garde que les derniers morceaux : la mémoire reste petite.)
+			while (ordre.length > GARDEES) {
+				var vieux = ordre.shift();
+				if (lecteurs.some(function (l) { return l.nom === vieux; })) {
+					ordre.push(vieux);
+					break;
+				}
+				URL.revokeObjectURL(pistes[vieux]);
+				delete pistes[vieux];
+			}
+		},
+		jouer: function (nom) {
+			if (!pistes[nom]) return false;
+			if (actuel && actuel.nom === nom) return true;
+			var c = contexte();
+			var ancien = actuel;
+			// Un morceau qui s'effaçait encore : il remonte, sans recommencer.
+			actuel = null;
+			for (var i = 0; i < lecteurs.length; i++) {
+				if (lecteurs[i].nom === nom) actuel = lecteurs[i];
+			}
+			if (!actuel) {
+				var el = new Audio();
+				el.loop = true;
+				el.preload = "auto";
+				el.src = pistes[nom];
+				var source = c.createMediaElementSource(el);
+				var gain = c.createGain();
+				gain.gain.value = 0;
+				source.connect(gain);
+				gain.connect(general);
+				actuel = {el: el, source: source, gain: gain, nom: nom};
+				lecteurs.push(actuel);
+			}
+			if (ancien) fondu(ancien, 0);
+			lancer(actuel);
+			fondu(actuel, 1);
+			return true;
+		},
+		volume: function (v) {
+			volume = v;
+			if (general) general.gain.setTargetAtTime(v, ctx.currentTime, 0.05);
+		},
+		info: function () {
+			if (!actuel) return "aucune";
+			return actuel.nom + ", " + (actuel.el.paused ? "EN PAUSE" : "joue") + ", " + Math.round(actuel.el.currentTime) +
+				" s, contexte " + (ctx ? ctx.state : "?");
+		}
+	};
+	// Avant le premier toucher, le navigateur refuse de jouer : on relance au premier geste.
+	function reveiller() {
+		if (document.hidden) return;
+		if (ctx && ctx.state !== "running") ctx.resume();
+		if (actuel && actuel.el.paused) lancer(actuel);
+	}
+	["touchend", "pointerdown", "mousedown", "keydown"].forEach(function (evenement) {
+		window.addEventListener(evenement, reveiller, true);
+	});
+	// Page cachée : tout le son en pause (la musique et les bruitages du jeu).
+	document.addEventListener("visibilitychange", function () {
+		var contextes = window.cuberraContextesAudio || [];
+		if (document.hidden) {
+			contextes.forEach(function (c) { if (c.suspend) c.suspend(); });
+			lecteurs.forEach(function (l) { l.el.pause(); });
+		} else {
+			contextes.forEach(function (c) { if (c.resume) c.resume(); });
+			if (actuel) lancer(actuel);
+		}
+	});
+})();
+</script>
+<script>
 // Diagnostic : si le jeu reste bloqué après le chargement (ou en cas d'erreur),
 // on affiche en bas de l'écran ce qui se passe, pour pouvoir le signaler.
 // Le tout est aussi gardé dans le navigateur : avec ?diag, on revoit ce qui
@@ -413,7 +548,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":43584196,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17029704,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 

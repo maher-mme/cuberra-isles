@@ -16,8 +16,16 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.9)
+## 🆕 Quoi de neuf ? (v0.1.10)
 
+- 📱 **Bien plus stable sur téléphone et tablette** :
+  - la mémoire ne grossit plus en voyageant : les îles lointaines et leurs monstres sont rangés, même après une téléportation ;
+  - le jeu est presque 3 fois plus léger à télécharger (16 Mo au lieu de 43 dans le navigateur) : la musique a été allégée ;
+  - les cercles (il y en a partout !) se dessinent bien plus vite : environ deux fois plus d'images par seconde, et deux fois moins de mémoire graphique ;
+  - les habitants et les coquillages loin de l'écran ne travaillent plus pour rien.
+- 🎵 **Dans le navigateur, la musique est jouée par le navigateur lui-même** : elle ne crachouille plus quand le jeu ralentit, et tout le son se met en pause quand on quitte l'appli ou l'onglet.
+
+Avant (v0.1.9) :
 - ⛵ **Nouvel écran de chargement** : la jauge est une mer bleue qui monte, et ton cube navigue sur son voilier tout au bout !
 - 🤿 **Le bouton pour plonger** (téléphone et tablette) est plus clair, et il n'apparaît que quand tu nages.
 - 🗺️ **Zoomer la carte sur téléphone** : avec deux doigts, ou avec les boutons + et −.
