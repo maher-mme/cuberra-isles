@@ -3,12 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cuberra Isles</title>
-<meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit, sur Windows et dans le navigateur (iPhone, iPad, Android).">
-<meta property="og:title" content="Cuberra Isles">
-<meta property="og:description" content="Une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit.">
+<title>Cuberra Isles · jeu d'aventure gratuit, à jouer dans le navigateur</title>
+<meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit en français, sans téléchargement : joue directement dans le navigateur sur téléphone, tablette et ordinateur, ou installe-le sur Windows et Android.">
+<meta name="keywords" content="jeu gratuit, jeu d'aventure, jeu navigateur, jeu sans téléchargement, jeu en ligne gratuit, jeu de cube, jeu d'exploration, jeu d'îles, jeu en français, jeu mobile gratuit, jeu Godot">
+<meta name="theme-color" content="#141432">
+<link rel="canonical" href="https://maher-mme.github.io/cuberra-isles/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Cuberra Isles">
+<meta property="og:url" content="https://maher-mme.github.io/cuberra-isles/">
+<meta property="og:title" content="Cuberra Isles · jeu d'aventure gratuit">
+<meta property="og:description" content="Une petite île, un cube, et tout un monde à explorer. Joue gratuitement dans le navigateur, sans rien installer !">
 <meta property="og:image" content="https://maher-mme.github.io/cuberra-isles/apercu-reseaux.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="images/icone.png">
+<link rel="apple-touch-icon" href="images/icone.png">
+<!-- La fiche « jeu vidéo » que lisent Google et les autres moteurs de recherche -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Cuberra Isles",
+  "url": "https://maher-mme.github.io/cuberra-isles/",
+  "image": "https://maher-mme.github.io/cuberra-isles/apercu-reseaux.png",
+  "description": "Une petite île, un cube, et tout un monde à explorer. Jeu d'aventure et d'exploration gratuit : prends la mer, aide les habitants, fabrique de meilleures armes et découvre les secrets des îles.",
+  "genre": ["Aventure", "Exploration", "Action"],
+  "inLanguage": "fr",
+  "gamePlatform": ["Navigateur web", "Windows", "Android", "iPhone", "iPad"],
+  "applicationCategory": "Game",
+  "operatingSystem": "Windows, Android, iOS, macOS",
+  "playMode": "SinglePlayer",
+  "author": { "@type": "Person", "name": "obstinate" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
@@ -170,6 +198,61 @@
   footer { padding: 40px 0 56px; color: var(--doux); font-size: 15px; border-top: 1px solid var(--bord); }
   footer h2 { font-size: 24px; color: var(--texte); }
   footer ul { padding-left: 20px; }
+  /* --- Partager le jeu --- */
+  .partage {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #1f3f73, #23264f);
+    border: 1px solid var(--bord);
+  }
+  .partage h2 { margin: 0 0 6px; }
+  .partage p { margin: 0 0 16px; color: var(--doux); max-width: 560px; }
+  .partage .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .bouton-partager {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 14px;
+    background: var(--vert);
+    color: #0b3a1a;
+    font: 600 20px "Fredoka", sans-serif;
+    box-shadow: 0 5px 0 #3fbf62;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .bouton-partager:hover { transform: translateY(-2px); }
+  .bouton-partager:active { transform: translateY(3px); box-shadow: none; }
+  .lien-affiche { font-weight: 800; }
+  .qr { text-align: center; }
+  .qr img { display: block; width: 168px; height: 168px; border-radius: 12px; image-rendering: pixelated; }
+  .qr small { display: block; margin-top: 6px; color: var(--doux); font-weight: 600; }
+  .copie { color: var(--vert); font-weight: 800; }
+  .petit-partage {
+    margin-top: 16px;
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    background: rgba(20,20,50,.55);
+    color: var(--texte);
+    font: 700 15px "Nunito", sans-serif;
+    cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    .partage { grid-template-columns: 1fr; }
+    .qr { justify-self: center; }
+  }
+
+  /* --- Les questions --- */
+  .questions details { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; }
+  .questions summary { cursor: pointer; font-weight: 800; }
+  .questions details p { margin: 8px 0 0; color: var(--doux); }
+
   .cache { display: none !important; }
   .bouton-petit { font-size: 18px; padding: 12px 20px; }
   .deja { display: none; }
@@ -206,6 +289,7 @@
     <p class="note" data-pour="iphone android android-apk">📱 Le jeu s'affiche toujours à l'horizontale : tourne ton téléphone pour jouer.</p>
     <p class="note" data-pour="iphone android android-apk">📲 Astuce : la version « Jouer » peut s'installer comme une appli (une vraie icône, en plein écran), sans fichier à télécharger, donc sans message « appli inconnue » !</p>
     <p class="note" data-pour="android">📦 La version Android à installer arrive bientôt. En attendant, tu peux jouer directement ici !</p>
+    <button class="petit-partage" type="button" data-partager>📤 Partager le jeu à un ami</button>
   </div>
 </header>
 
@@ -313,9 +397,55 @@
 
   <section>
     <div class="contenu">
+      <div class="partage">
+        <div>
+          <h2>📣 Fais découvrir le&nbsp;jeu&nbsp;!</h2>
+          <p>Le jeu te plaît ? Envoie-le à un copain : par message, par mail… Ou montre-lui le QR code : il le scanne avec son téléphone et il joue tout de suite, sans rien installer.</p>
+          <div class="actions">
+            <button class="bouton-partager" type="button" data-partager>📤 Partager le jeu</button>
+            <a class="lien-affiche" href="affiche-qr.png" download="Cuberra-Isles-affiche.png">🖼️ Télécharger l'affiche avec le QR code</a>
+          </div>
+          <p class="copie cache" data-copie>✅ Lien copié ! Colle-le dans un message pour l'envoyer.</p>
+        </div>
+        <div class="qr">
+          <img src="images/qr-code.png" alt="QR code qui ouvre le site de Cuberra Isles" width="168" height="168">
+          <small>Scanne et joue !</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu questions">
+      <h2>❔ Questions</h2>
+      <details>
+        <summary>Est-ce que le jeu est gratuit ?</summary>
+        <p>Oui, complètement : pas de pub, pas d'achat dans le jeu, pas de compte à créer.</p>
+      </details>
+      <details>
+        <summary>Faut-il télécharger quelque chose ?</summary>
+        <p>Non : tu peux jouer directement dans le navigateur, sur téléphone, tablette ou ordinateur. Si tu préfères, tu peux aussi l'installer sur Windows ou Android, ou l'ajouter à l'écran d'accueil comme une appli.</p>
+      </details>
+      <details>
+        <summary>Sur quels appareils on peut jouer ?</summary>
+        <p>Sur iPhone, iPad, téléphones et tablettes Android (au doigt, avec un joystick), et sur ordinateur Windows, Mac ou Linux (au clavier et à la souris).</p>
+      </details>
+      <details>
+        <summary>Ma partie est-elle sauvegardée ?</summary>
+        <p>Oui, le jeu sauvegarde tout seul sur ton appareil, et tu peux avoir plusieurs parties en même temps.</p>
+      </details>
+      <details>
+        <summary>Le jeu est-il en français ?</summary>
+        <p>Oui, tout le jeu est en français : les dialogues, les quêtes et les menus.</p>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu">
       <div class="bug">
         <div>
-          <h2>🐛 Tu as trouvé un bug ?</h2>
+          <h2>🐛 Tu as trouvé un&nbsp;bug&nbsp;?</h2>
           <p>Quelque chose ne marche pas comme prévu ? Dis-le-nous, on le corrigera dans la prochaine mise à jour ! (Il faut un compte GitHub, c'est gratuit.)</p>
         </div>
         <a class="lien-bug" href="https://github.com/maher-mme/cuberra-isles/issues/new/choose">Signaler un bug</a>
@@ -402,6 +532,47 @@
     miseEnPage();
   });
   miseEnPage();
+
+  // Le bouton « Partager » : sur téléphone et tablette, il ouvre le menu de
+  // partage de l'appareil (messages, mail, applis…) ; ailleurs, il copie le
+  // lien du site, à coller dans un message.
+  var PARTAGE = {
+    title: "Cuberra Isles",
+    text: "Viens jouer à Cuberra Isles ! Un jeu d'aventure gratuit, on y joue directement dans le navigateur 🏝️",
+    url: "https://maher-mme.github.io/cuberra-isles/"
+  };
+
+  function montrerCopie() {
+    var message = document.querySelector("[data-copie]");
+    message.classList.remove("cache");
+    message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    setTimeout(function () { message.classList.add("cache"); }, 4000);
+  }
+
+  function copierLien() {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(PARTAGE.url).then(montrerCopie, function () {
+        window.prompt("Copie ce lien pour le partager :", PARTAGE.url);
+      });
+    } else {
+      window.prompt("Copie ce lien pour le partager :", PARTAGE.url);
+    }
+  }
+
+  document.querySelectorAll("[data-partager]").forEach(function (bouton) {
+    bouton.addEventListener("click", function () {
+      if (navigator.share) {
+        navigator.share(PARTAGE).catch(function (erreur) {
+          // (Fermer le menu de partage n'est pas une erreur.)
+          if (erreur && erreur.name !== "AbortError") {
+            copierLien();
+          }
+        });
+      } else {
+        copierLien();
+      }
+    });
+  });
 </script>
 </body>
 </html>
