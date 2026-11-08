@@ -16,7 +16,14 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.0) : le chapitre 2 !
+## 🆕 Quoi de neuf ? (v0.2.1) : des graphismes tout beaux !
+
+- 🌊 **Une nouvelle mer** : l'eau ondule, des reflets de lumière serpentent, le soleil (et la lune, la nuit) scintille, et l'écume va et vient sur les plages.
+- 🌅 **Lumière et ciel** : des ombres de nuages qui glissent, une lumière dorée à l'aube et au coucher du soleil, et une lueur chaude autour de toi la nuit et dans les grottes.
+- 🍃 **Une nature qui vit** : les arbres bougent au vent, des feuilles (et des pétales de cerisier) s'envolent le jour, et des lucioles s'allument la nuit.
+- ⚔️ **Des combats qui ont du punch** : un éclat lumineux quand un coup touche, un petit arrêt sur image et l'écran qui tremble pour le coup final.
+
+Avant (v0.2.0) : le chapitre 2 !
 
 - ✨ **Une toute nouvelle aventure** : une fois le Grand Roi Démon vaincu, des mages venus d'un royaume lointain ouvrent un portail magique…
 - 🪄 **Le royaume d'Astralis** : une immense île avec sa cité royale (palais, remparts, marché, école de magie), et de nouvelles îles à explorer.
