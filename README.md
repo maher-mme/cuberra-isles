@@ -16,7 +16,15 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.1.10)
+## 🆕 Quoi de neuf ? (v0.2.0) : le chapitre 2 !
+
+- ✨ **Une toute nouvelle aventure** : une fois le Grand Roi Démon vaincu, des mages venus d'un royaume lointain ouvrent un portail magique…
+- 🪄 **Le royaume d'Astralis** : une immense île avec sa cité royale (palais, remparts, marché, école de magie), et de nouvelles îles à explorer.
+- 🔮 **On s'y bat avec une baguette magique**, de plus en plus puissante au fil de l'histoire.
+- 👹 **De nouveaux ennemis, de nouveaux boss**, de nouveaux habitants et de nouveaux animaux.
+- 🛠️ **Des corrections** : on retrouve toujours ses affaires en rechargeant sa partie, et quelques petits bugs de dessin en moins.
+
+Avant (v0.1.10) :
 
 - 📱 **Bien plus stable sur téléphone et tablette** :
   - la mémoire ne grossit plus en voyageant : les îles lointaines et leurs monstres sont rangés, même après une téléportation ;
