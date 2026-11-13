@@ -16,7 +16,13 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.4)
+## 🆕 Quoi de neuf ? (v0.2.5)
+
+- 🏠 **De plus belles maisons** : des toits en tuiles, des murs en planches, des fenêtres qui brillent d'une lumière chaude la nuit.
+- 🐄 **Tous les animaux et tous les monstres ont un contour**, comme dans un dessin animé.
+- 🗺️ **Une carte plus vivante** : chaque île montre sa végétation (sapins enneigés, cerisiers, champignons, cristaux, palmiers...).
+
+## v0.2.4
 
 - 🌳 **De plus beaux arbres** : un feuillage en touffes avec ombre et lumière, des troncs qui s'évasent en racines, des sapins aux branches dentelées.
 - 🪨 **De plus belles pierres** : des cristaux taillés qui scintillent, et des rochers à facettes pour l'opale et les minerais.
