@@ -16,7 +16,15 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.3)
+## 🆕 Quoi de neuf ? (v0.2.4)
+
+- 🌳 **De plus beaux arbres** : un feuillage en touffes avec ombre et lumière, des troncs qui s'évasent en racines, des sapins aux branches dentelées.
+- 🪨 **De plus belles pierres** : des cristaux taillés qui scintillent, et des rochers à facettes pour l'opale et les minerais.
+- 🟦 **Du relief pour tous les cubes** : toi, les habitants et les monstres-cubes.
+- 💧 **Des slimes tout brillants**, avec reflets et petits sourires.
+- 📱 **Plus léger sur téléphone** : sur téléphone et tablette, les effets coûteux sont simplifiés pour que le jeu reste fluide.
+
+## v0.2.3
 
 - 🧙 **La robe de sorcier** arrive au marché d'Astralis : +10 de vie, et les gardes de la frontière la laissent passer !
 - 💎 **Les cristaux se cassent aussi tout près** : un sort lancé collé à un rocher de cristal le touche bien.
