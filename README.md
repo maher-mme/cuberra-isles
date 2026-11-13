@@ -16,7 +16,13 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.2)
+## 🆕 Quoi de neuf ? (v0.2.3)
+
+- 🧙 **La robe de sorcier** arrive au marché d'Astralis : +10 de vie, et les gardes de la frontière la laissent passer !
+- 💎 **Les cristaux se cassent aussi tout près** : un sort lancé collé à un rocher de cristal le touche bien.
+- 🛡️ **Les sorts et les flèches ne traversent plus les grilles** quand on tire tout contre elles.
+
+## v0.2.2
 
 - 🧪 **La potion d'étoile se boit enfin** (touche F, bouton potion ou clic dans l'inventaire).
 - 💎 **Les sorts de baguette cassent les rochers de cristal** : plus besoin de pioche pour récolter des cristaux !
