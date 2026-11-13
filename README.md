@@ -16,7 +16,12 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.1) : des graphismes tout beaux !
+## 🆕 Quoi de neuf ? (v0.2.2)
+
+- 🧪 **La potion d'étoile se boit enfin** (touche F, bouton potion ou clic dans l'inventaire).
+- 💎 **Les sorts de baguette cassent les rochers de cristal** : plus besoin de pioche pour récolter des cristaux !
+
+## v0.2.1 : des graphismes tout beaux !
 
 - 🌊 **Une nouvelle mer** : l'eau ondule, des reflets de lumière serpentent, le soleil (et la lune, la nuit) scintille, et l'écume va et vient sur les plages.
 - 🌅 **Lumière et ciel** : des ombres de nuages qui glissent, une lumière dorée à l'aube et au coucher du soleil, et une lueur chaude autour de toi la nuit et dans les grottes.
