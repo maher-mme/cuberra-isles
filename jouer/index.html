@@ -95,6 +95,11 @@ body {
 <link rel="manifest" href="index.manifest.json">
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
 	<script>
+// Les parties sont gardées par le navigateur : on lui demande de ne jamais
+// les effacer pour faire de la place (« stockage persistant »).
+if (navigator.storage && navigator.storage.persist) {
+	navigator.storage.persist().catch(function () {});
+}
 // Toujours à l'horizontale : si le téléphone (ou la tablette) est tenu debout,
 // le jeu s'affiche couché (tourné d'un quart de tour) et remplit l'écran : on
 // tourne l'appareil pour jouer, sans aucun message. Les touchers sont
@@ -548,7 +553,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17218556,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17362000,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 

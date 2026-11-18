@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1794588870|15229342';
+const CACHE_VERSION = '1795000620|30358825';
 /** @type {string} */
 const CACHE_PREFIX = 'Cuberra Isles-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
