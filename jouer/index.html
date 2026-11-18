@@ -95,6 +95,35 @@ body {
 <link rel="manifest" href="index.manifest.json">
 <meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer.">
 	<script>
+// Le jeu ne doit tourner que dans UNE fenêtre à la fois : deux fenêtres (le
+// site et l'appli installée, ou deux onglets) gardent chacune leur copie des
+// parties, et l'une peut effacer les parties de l'autre en sauvegardant.
+// La première fenêtre garde un « verrou » ; les suivantes affichent un message.
+window.cuberraUnSeul = function (demarrer) {
+	if (!navigator.locks || !navigator.locks.request) {
+		demarrer();
+		return;
+	}
+	navigator.locks.request("cuberra-isles-jeu", { ifAvailable: true }, function (verrou) {
+		if (!verrou) {
+			var boite = document.createElement("div");
+			boite.style.cssText = "position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;"
+				+ "background:#1f5f9e;color:#fff;font:20px sans-serif;text-align:center;padding:24px;";
+			boite.innerHTML = "<div><p style='font-size:26px;color:#f2c14e'>Cuberra Isles est déjà ouvert</p>"
+				+ "<p>Le jeu est déjà ouvert dans une autre fenêtre ou un autre onglet (ou dans l'appli installée).<br>"
+				+ "Ferme-le, puis touche le bouton ci-dessous. (Comme ça, tes parties restent en sécurité.)</p>"
+				+ "<p style='opacity:0.8'>The game is already open in another window or tab. Close it, then press the button below.</p>"
+				+ "<button style='font-size:20px;padding:10px 24px;margin-top:12px' onclick='location.reload()'>Jouer ici / Play here</button></div>";
+			document.body.appendChild(boite);
+			return;
+		}
+		demarrer();
+		// (On garde le verrou tant que la page est ouverte.)
+		return new Promise(function () {});
+	});
+};
+</script>
+<script>
 // Les parties sont gardées par le navigateur : on lui demande de ne jamais
 // les effacer pour faire de la place (« stockage persistant »).
 if (navigator.storage && navigator.storage.persist) {
@@ -553,7 +582,7 @@ if (navigator.storage && navigator.storage.persist) {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17362000,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17363712,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -641,7 +670,7 @@ const engine = new Engine(GODOT_CONFIG);
 		}
 	} else {
 		setStatusMode('progress');
-		engine.startGame({
+		window.cuberraUnSeul(() => engine.startGame({
 			'onProgress': function (current, total) {
 				if (current > 0 && total > 0) {
 					statusProgress.value = current;
@@ -653,7 +682,7 @@ const engine = new Engine(GODOT_CONFIG);
 			},
 		}).then(() => {
 			setStatusMode('hidden');
-		}, displayFailureNotice);
+		}, displayFailureNotice));
 	}
 }());
 		</script>

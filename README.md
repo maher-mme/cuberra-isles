@@ -16,7 +16,11 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.6)
+## 🆕 Quoi de neuf ? (v0.2.7)
+
+- 💾 **Tes parties sont en sécurité sur le site et sur l'appli installée** : le jeu ne peut plus être ouvert dans deux fenêtres à la fois (l'une pouvait effacer les parties de l'autre), et chaque partie a une copie de secours dans le navigateur, remise en place toute seule si elle disparaît.
+
+## v0.2.6
 
 - 🇬🇧 **Le jeu parle anglais !** Si ton appareil n'est pas en français, tout passe en anglais : dialogues, quêtes, objets, menus. On peut aussi choisir la langue dans les Options. *The game is now available in English!*
 - 💾 **Tes parties sont mieux protégées** : une partie effacée peut être récupérée (bouton « Récupérer »), le jeu garde une copie de secours de chaque sauvegarde, et sur téléphone un double tapotement sur « Effacer » ne suffit plus pour effacer.
