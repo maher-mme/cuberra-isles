@@ -16,7 +16,12 @@ Un jeu d'aventure en 2D, vu de dessus, où tu es un petit cube.</p>
 
 ---
 
-## 🆕 Quoi de neuf ? (v0.2.8)
+## 🆕 Quoi de neuf ? (v0.2.9)
+
+- ⚔️ **Armes et armures avec un contour de dessin animé** : ton cube, son arme et son armure sont maintenant bien dessinés, comme les monstres et les animaux (sur ordinateur).
+- 🎒 **Les icônes des objets aussi** : dans l'inventaire et les boutiques.
+
+## v0.2.8
 
 - 🇬🇧 **Les récompenses et les prix sont traduits en anglais** : « +1 crystal +2 stone » quand on casse un rocher ou un arbre, et « 10 wood, 25 coins » dans les prix.
 - ✏️ En français, « 1 pièce » au singulier (au lieu de « 1 pièces »).
