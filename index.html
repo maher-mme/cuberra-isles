@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cuberra Isles · jeu d'aventure gratuit, à jouer dans le navigateur</title>
-<meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit en français, sans téléchargement : joue directement dans le navigateur sur téléphone, tablette et ordinateur, ou installe-le sur Windows et Android.">
+<meta name="description" content="Cuberra Isles : une petite île, un cube, et tout un monde à explorer. Jeu d'aventure gratuit en français et en anglais, sans téléchargement : joue directement dans le navigateur sur téléphone, tablette et ordinateur, ou installe-le sur Windows et Android.">
 <meta name="keywords" content="jeu gratuit, jeu d'aventure, jeu navigateur, jeu sans téléchargement, jeu en ligne gratuit, jeu de cube, jeu d'exploration, jeu d'îles, jeu en français, jeu mobile gratuit, jeu Godot">
 <meta name="theme-color" content="#141432">
 <link rel="canonical" href="https://maher-mme.github.io/cuberra-isles/">
@@ -30,10 +30,10 @@
   "@type": "VideoGame",
   "name": "Cuberra Isles",
   "url": "https://maher-mme.github.io/cuberra-isles/",
-  "image": ["https://maher-mme.github.io/cuberra-isles/images/fiche-jeu.jpg", "https://maher-mme.github.io/cuberra-isles/apercu-reseaux.png"],
+  "image": ["https://maher-mme.github.io/cuberra-isles/images/fiche-jeu.jpg", "https://maher-mme.github.io/cuberra-isles/images/jeu-village.jpg"],
   "description": "Une petite île, un cube, et tout un monde à explorer. Jeu d'aventure et d'exploration gratuit : prends la mer, aide les habitants, fabrique de meilleures armes et découvre les secrets des îles.",
   "genre": ["Aventure", "Exploration", "Action"],
-  "inLanguage": "fr",
+  "inLanguage": ["fr", "en"],
   "gamePlatform": ["Navigateur web", "Windows", "Android", "iPhone", "iPad"],
   "applicationCategory": "Game",
   "operatingSystem": "Windows, Android, iOS, macOS",
@@ -44,107 +44,240 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --nuit: #141432;
-    --nuit-2: #1d1f45;
+    --nuit-2: #1b1d45;
     --carte: #23264f;
-    --bord: #343a72;
+    --carte-2: #2a2e5e;
+    --bord: #383f7a;
     --texte: #eef0ff;
     --doux: #b8bde6;
     --or: #f2c14e;
-    --or-fonce: #d39a1f;
+    --or-fonce: #c98a14;
     --bleu: #4a9ad8;
     --bleu-fonce: #2a6fbd;
     --vert: #7dff9a;
+    --rose: #ff8fb8;
+    --violet: #a88cf0;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
   body {
     margin: 0;
     background: var(--nuit);
     color: var(--texte);
-    font: 17px/1.6 "Nunito", system-ui, sans-serif;
+    font: 17px/1.65 "Nunito", system-ui, sans-serif;
+    overflow-x: hidden;
   }
+  img { max-width: 100%; }
   a { color: var(--or); }
   h1, h2, h3 { font-family: "Fredoka", "Nunito", sans-serif; line-height: 1.15; }
-  .contenu { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  .contenu { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* --- Le menu, toujours en haut --- */
+  .menu {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    transition: background .3s, box-shadow .3s;
+  }
+  .menu.plein { background: rgba(20,20,50,.88); backdrop-filter: blur(10px); box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+  .menu .contenu { display: flex; align-items: center; gap: 18px; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--texte); text-decoration: none; font: 700 20px "Fredoka", sans-serif; white-space: nowrap; }
+  .logo img { width: 34px; height: 34px; border-radius: 9px; }
+  .liens { display: flex; gap: 18px; margin-left: auto; }
+  .liens a { color: var(--doux); text-decoration: none; font-weight: 800; font-size: 15px; transition: color .2s; }
+  .liens a:hover { color: var(--or); }
+  .menu .jouer-vite {
+    padding: 8px 18px; border-radius: 999px; background: var(--or); color: #2a1f05;
+    font: 600 17px "Fredoka", sans-serif; text-decoration: none; box-shadow: 0 4px 0 var(--or-fonce); white-space: nowrap;
+  }
+  @media (max-width: 860px) { .liens { display: none; } .menu .jouer-vite { margin-left: auto; } }
 
   /* --- L'affiche en haut --- */
   .haut {
     position: relative;
-    min-height: min(92vh, 760px);
+    min-height: min(100vh, 820px);
     display: flex;
     align-items: flex-end;
     background: url("images/affiche-fond.jpg") 35% 30% / cover no-repeat;
+    overflow: hidden;
   }
   .haut::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20,20,50,0) 35%, rgba(20,20,50,.75) 70%, var(--nuit) 100%);
+    background: linear-gradient(180deg, rgba(20,20,50,.25) 0%, rgba(20,20,50,0) 30%, rgba(20,20,50,.7) 68%, var(--nuit) 100%);
   }
-  .haut .contenu { position: relative; z-index: 1; width: 100%; padding-bottom: 48px; }
+  /* Des étoiles qui scintillent dans le ciel */
+  .etoiles, .etoiles::after {
+    position: absolute; inset: 0 0 45% 0; z-index: 1; pointer-events: none;
+    background-image:
+      radial-gradient(2px 2px at 12% 18%, #fff, transparent), radial-gradient(1.5px 1.5px at 28% 8%, #fff, transparent),
+      radial-gradient(2px 2px at 46% 22%, #fff, transparent), radial-gradient(1.5px 1.5px at 63% 12%, #fff, transparent),
+      radial-gradient(2.5px 2.5px at 78% 26%, #fff8d0, transparent), radial-gradient(1.5px 1.5px at 90% 9%, #fff, transparent),
+      radial-gradient(2px 2px at 6% 40%, #fff, transparent), radial-gradient(1.5px 1.5px at 55% 38%, #fff, transparent);
+    animation: scintille 4s ease-in-out infinite;
+  }
+  .etoiles::after {
+    content: ""; inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent), radial-gradient(2px 2px at 36% 15%, #fff8d0, transparent),
+      radial-gradient(1.5px 1.5px at 70% 33%, #fff, transparent), radial-gradient(2px 2px at 84% 18%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 95% 36%, #fff, transparent);
+    animation-delay: 2s;
+  }
+  @keyframes scintille { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  .haut .contenu { position: relative; z-index: 2; width: 100%; padding-bottom: 72px; }
   .badge {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 999px;
-    background: rgba(242,193,78,.15);
+    background: rgba(20,20,50,.55);
     border: 1px solid var(--or);
     color: var(--or);
     font-weight: 800;
     font-size: 14px;
+    backdrop-filter: blur(4px);
   }
   .haut h1 {
-    margin: 12px 0 4px;
-    font-size: clamp(44px, 9vw, 92px);
+    margin: 14px 0 6px;
+    font: 400 clamp(52px, 11vw, 112px)/1 "Lilita One", "Fredoka", sans-serif;
+    letter-spacing: 2px;
     color: var(--or);
-    text-shadow: 0 4px 0 #1a1f2b, 0 0 24px rgba(0,0,0,.5);
-    letter-spacing: 1px;
+    background: linear-gradient(180deg, #ffe9a6 0%, #f2c14e 45%, #d9921a 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 5px 0 #1a1f2b) drop-shadow(0 0 26px rgba(242,193,78,.35));
+    animation: flotte 6s ease-in-out infinite;
   }
-  .slogan { margin: 0 0 24px; font-size: clamp(18px, 3vw, 24px); font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,.6); }
+  @keyframes flotte { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .slogan { margin: 0 0 26px; font-size: clamp(19px, 3vw, 26px); font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,.7); max-width: 640px; }
   .boutons { display: flex; flex-wrap: wrap; gap: 14px; }
   .bouton {
     display: inline-flex;
     flex-direction: column;
     gap: 2px;
     padding: 14px 26px;
-    border-radius: 16px;
+    border-radius: 18px;
     text-decoration: none;
     font-family: "Fredoka", sans-serif;
     font-size: 22px;
     font-weight: 600;
     transition: transform .15s, box-shadow .15s;
   }
-  .bouton small { font-family: "Nunito", sans-serif; font-size: 14px; font-weight: 600; opacity: .85; }
+  .bouton small { font-family: "Nunito", sans-serif; font-size: 14px; font-weight: 700; opacity: .85; }
   .bouton:hover { transform: translateY(-3px); }
-  .bouton-or { background: var(--or); color: #2a1f05; box-shadow: 0 6px 0 var(--or-fonce); }
-  .bouton-bleu { background: var(--bleu); color: #fff; box-shadow: 0 6px 0 var(--bleu-fonce); }
+  .bouton-or { background: var(--or); color: #2a1f05; box-shadow: 0 6px 0 var(--or-fonce), 0 12px 30px rgba(242,193,78,.25); }
+  .bouton-bleu { background: var(--bleu); color: #fff; box-shadow: 0 6px 0 var(--bleu-fonce), 0 12px 30px rgba(74,154,216,.25); }
   .bouton:active { transform: translateY(3px); box-shadow: none; }
+  .descendre {
+    position: absolute; left: 50%; bottom: 18px; z-index: 2; transform: translateX(-50%);
+    color: var(--doux); text-decoration: none; font-size: 28px; animation: rebond 2s infinite;
+  }
+  @keyframes rebond { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
 
   /* --- Les parties de la page --- */
-  section { padding: 56px 0; }
-  section h2 { font-size: clamp(28px, 5vw, 40px); margin: 0 0 20px; }
-  .intro { font-size: 19px; color: var(--doux); max-width: 760px; }
-  .intro strong { color: var(--texte); }
-  .affiche-jeu { display: block; width: 100%; height: auto; margin-top: 24px; border-radius: 16px; border: 1px solid var(--bord); box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  section { padding: 72px 0; position: relative; }
+  .titre { text-align: center; margin-bottom: 34px; }
+  .titre .sur { display: inline-block; color: var(--or); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 14px; }
+  .titre h2 { font-size: clamp(30px, 5.5vw, 46px); margin: 6px 0 8px; }
+  .titre p { color: var(--doux); max-width: 640px; margin: 0 auto; font-size: 18px; }
+  .clair { background: linear-gradient(180deg, var(--nuit) 0%, var(--nuit-2) 12%, var(--nuit-2) 88%, var(--nuit) 100%); }
+  .note { color: var(--doux); font-size: 15px; }
 
-  .galerie {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 14px;
+  /* Ce qui est nouveau */
+  .nouveau { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .nouveau div {
+    padding: 16px 18px; border-radius: 16px; background: var(--carte); border: 1px solid var(--bord);
+    border-left: 5px solid var(--or);
   }
-  .galerie figure { margin: 0; border-radius: 14px; overflow: hidden; background: var(--carte); border: 1px solid var(--bord); }
-  .galerie img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-  .galerie figcaption { padding: 10px 14px; font-weight: 600; color: var(--doux); }
+  .nouveau b { display: block; font-family: "Fredoka", sans-serif; font-size: 19px; margin-bottom: 2px; }
+  .nouveau span { color: var(--doux); font-size: 15px; }
 
-  .cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-  .carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 18px; }
-  .carte .emoji { font-size: 32px; }
-  .carte h3 { margin: 6px 0 6px; font-size: 21px; }
+  /* Les chiffres */
+  .chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 28px; }
+  .chiffre { text-align: center; padding: 18px 8px; border-radius: 18px; background: linear-gradient(160deg, var(--carte-2), var(--carte)); border: 1px solid var(--bord); }
+  .chiffre b { display: block; font: 400 42px/1 "Lilita One", "Fredoka", sans-serif; color: var(--or); }
+  .chiffre span { color: var(--doux); font-weight: 800; font-size: 15px; }
+
+  /* L'histoire en deux chapitres */
+  .chapitres { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+  .chapitre { border-radius: 22px; overflow: hidden; background: var(--carte); border: 1px solid var(--bord); box-shadow: 0 16px 40px rgba(0,0,0,.3); }
+  .chapitre img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .chapitre div { padding: 20px 22px 24px; }
+  .chapitre .numero { color: var(--or); font-weight: 800; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+  .chapitre h3 { font-size: 26px; margin: 4px 0 10px; }
+  .chapitre p { margin: 0; color: var(--doux); }
+  .chapitre strong { color: var(--texte); }
+  .bulle {
+    position: relative; max-width: 760px; margin: 38px auto 0; padding: 20px 26px 20px 92px;
+    border-radius: 22px; background: #fff8e8; color: #3a2a14; font-size: 19px; font-weight: 700;
+    box-shadow: 0 12px 30px rgba(0,0,0,.3);
+  }
+  .bulle::before {
+    content: "👴"; position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
+    font-size: 44px;
+  }
+  .bulle small { display: block; margin-top: 6px; font-weight: 800; color: #9a7a3a; font-size: 14px; }
+
+  /* La galerie (clic : en grand) */
+  .galerie { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .galerie figure { position: relative; margin: 0; border-radius: 16px; overflow: hidden; background: var(--carte); border: 1px solid var(--bord); cursor: zoom-in; }
+  .galerie figure.grand { grid-column: span 2; grid-row: span 2; }
+  @media (max-width: 620px) { .galerie figure.grand { grid-column: auto; grid-row: auto; } }
+  .galerie img { display: block; width: 100%; height: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .4s; }
+  .galerie figure:hover img { transform: scale(1.06); }
+  .galerie figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 10px;
+    background: linear-gradient(180deg, transparent, rgba(10,10,30,.85)); font-weight: 800; font-size: 15px;
+  }
+  .loupe {
+    position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center;
+    background: rgba(8,8,24,.92); padding: 16px;
+  }
+  .loupe.ouverte { display: flex; }
+  .loupe img { max-width: min(1152px, 100%); max-height: 82vh; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  .loupe p { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; font-weight: 800; margin: 0; }
+  .loupe button {
+    position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border: none; border-radius: 50%;
+    background: rgba(255,255,255,.15); color: #fff; font-size: 24px; cursor: pointer;
+  }
+  .loupe .avant { left: 12px; } .loupe .apres { right: 12px; }
+  .loupe .fermer { top: 28px; right: 16px; transform: none; }
+
+  /* Ce qui t'attend */
+  .cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .carte {
+    background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 22px;
+    transition: transform .2s, border-color .2s;
+  }
+  .carte:hover { transform: translateY(-4px); border-color: var(--or); }
+  .carte .emoji {
+    display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 58px; border-radius: 16px;
+    font-size: 30px; background: linear-gradient(140deg, var(--c1, #3a4fa0), var(--c2, #6a3fa0));
+    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+  }
+  .carte h3 { margin: 14px 0 6px; font-size: 22px; }
   .carte p { margin: 0; color: var(--doux); }
 
+  /* L'âge conseillé */
+  .age {
+    display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center;
+    padding: 26px; border-radius: 22px; background: linear-gradient(135deg, #1f3f73, #2b2f63); border: 1px solid var(--bord);
+  }
+  .age .pastille {
+    width: 120px; height: 140px; border-radius: 16px; background: #7fc04a; color: #fff; text-align: center;
+    display: flex; flex-direction: column; justify-content: center; box-shadow: 0 8px 0 #4f8a2a; font-family: "Fredoka", sans-serif;
+  }
+  .age .pastille b { font: 400 64px/1 "Lilita One", "Fredoka", sans-serif; }
+  .age .pastille span { font-weight: 700; font-size: 15px; }
+  .age h2 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 34px); }
+  .age ul { margin: 8px 0 10px; padding-left: 20px; }
+  .age li { margin: 2px 0; }
+  .age .note { margin: 0; }
+  @media (max-width: 620px) { .age { grid-template-columns: 1fr; justify-items: center; text-align: left; } }
+
+  /* Installer / jouer */
   .etapes { counter-reset: etape; list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
   .etapes li {
     counter-increment: etape;
@@ -152,7 +285,7 @@
     padding: 14px 16px 14px 62px;
     background: var(--carte);
     border: 1px solid var(--bord);
-    border-radius: 14px;
+    border-radius: 16px;
   }
   .etapes li::before {
     content: counter(etape);
@@ -167,97 +300,72 @@
     font: 700 19px/34px "Fredoka", sans-serif;
     text-align: center;
   }
-  .note { color: var(--doux); font-size: 15px; }
-
-  .deux { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-  table { width: 100%; border-collapse: collapse; background: var(--carte); border-radius: 14px; overflow: hidden; }
-  td { padding: 9px 14px; border-bottom: 1px solid var(--bord); }
+  .deux { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
+  .deux h2 { font-size: clamp(26px, 4vw, 34px); margin: 0 0 16px; }
+  .deux h3 { font-size: 22px; margin: 22px 0 12px; }
+  table { width: 100%; border-collapse: collapse; background: var(--carte); border-radius: 16px; overflow: hidden; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--bord); }
   tr:last-child td { border-bottom: none; }
   td:first-child { font-weight: 800; color: var(--or); white-space: nowrap; }
-  h3.titre-table { font-size: 22px; margin: 0 0 10px; }
+  h3.titre-table { font-size: 22px; margin: 0 0 12px; }
 
-  .bug {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 24px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #2b2f63, #3a2a5e);
-    border: 1px solid var(--bord);
-  }
-  .bug h2 { margin: 0 0 6px; }
-  .bug p { margin: 0; color: var(--doux); max-width: 560px; }
-  .lien-bug {
-    display: inline-block;
-    padding: 12px 22px;
-    border-radius: 14px;
-    background: #ff8a80;
-    color: #3a0d0a;
-    font: 600 20px "Fredoka", sans-serif;
-    text-decoration: none;
-    box-shadow: 0 5px 0 #d65a50;
-  }
-  .lien-bug:hover { transform: translateY(-2px); }
-
-  footer { padding: 40px 0 56px; color: var(--doux); font-size: 15px; border-top: 1px solid var(--bord); }
-  footer h2 { font-size: 24px; color: var(--texte); }
-  footer ul { padding-left: 20px; }
-  /* --- Partager le jeu --- */
+  /* Partager */
   .partage {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 24px;
-    padding: 24px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #1f3f73, #23264f);
-    border: 1px solid var(--bord);
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; padding: 26px;
+    border-radius: 22px; background: linear-gradient(135deg, #1f4f63, #23264f); border: 1px solid var(--bord);
   }
-  .partage h2 { margin: 0 0 6px; }
+  .partage h2 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 34px); }
   .partage p { margin: 0 0 16px; color: var(--doux); max-width: 560px; }
   .partage .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .bouton-partager {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border: none;
-    border-radius: 14px;
-    background: var(--vert);
-    color: #0b3a1a;
-    font: 600 20px "Fredoka", sans-serif;
-    box-shadow: 0 5px 0 #3fbf62;
-    cursor: pointer;
-    transition: transform .15s;
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border: none; border-radius: 14px;
+    background: var(--vert); color: #0b3a1a; font: 600 20px "Fredoka", sans-serif; box-shadow: 0 5px 0 #3fbf62;
+    cursor: pointer; transition: transform .15s;
   }
   .bouton-partager:hover { transform: translateY(-2px); }
   .bouton-partager:active { transform: translateY(3px); box-shadow: none; }
   .lien-affiche { font-weight: 800; }
   .qr { text-align: center; }
   .qr img { display: block; width: 168px; height: 168px; border-radius: 12px; image-rendering: pixelated; }
-  .qr small { display: block; margin-top: 6px; color: var(--doux); font-weight: 600; }
+  .qr small { display: block; margin-top: 6px; color: var(--doux); font-weight: 700; }
   .copie { color: var(--vert); font-weight: 800; }
   .petit-partage {
-    margin-top: 16px;
-    padding: 8px 16px;
-    border: 1px solid rgba(255,255,255,.35);
-    border-radius: 999px;
-    background: rgba(20,20,50,.55);
-    color: var(--texte);
-    font: 700 15px "Nunito", sans-serif;
-    cursor: pointer;
+    margin-top: 18px; padding: 8px 16px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px;
+    background: rgba(20,20,50,.55); color: var(--texte); font: 700 15px "Nunito", sans-serif; cursor: pointer;
   }
-  @media (max-width: 640px) {
-    .partage { grid-template-columns: 1fr; }
-    .qr { justify-self: center; }
-  }
+  @media (max-width: 640px) { .partage { grid-template-columns: 1fr; } .qr { justify-self: center; } }
 
-  /* --- Les questions --- */
-  .questions details { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; }
-  .questions summary { cursor: pointer; font-weight: 800; }
+  /* Les questions */
+  .questions { max-width: 820px; }
+  .questions details { background: var(--carte); border: 1px solid var(--bord); border-radius: 16px; padding: 14px 18px; margin-bottom: 10px; }
+  .questions summary { cursor: pointer; font-weight: 800; font-size: 18px; }
+  .questions details[open] { border-color: var(--or); }
   .questions details p { margin: 8px 0 0; color: var(--doux); }
+
+  /* Un bug ? */
+  .bug {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 26px;
+    border-radius: 22px; background: linear-gradient(135deg, #2b2f63, #3a2a5e); border: 1px solid var(--bord);
+  }
+  .bug h2 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 34px); }
+  .bug p { margin: 0; color: var(--doux); max-width: 560px; }
+  .lien-bug {
+    display: inline-block; padding: 12px 22px; border-radius: 14px; background: #ff8a80; color: #3a0d0a;
+    font: 600 20px "Fredoka", sans-serif; text-decoration: none; box-shadow: 0 5px 0 #d65a50;
+  }
+  .lien-bug:hover { transform: translateY(-2px); }
+
+  footer { padding: 44px 0 60px; color: var(--doux); font-size: 15px; border-top: 1px solid var(--bord); background: #10102a; }
+  footer h2 { font-size: 24px; color: var(--texte); }
+  footer ul { padding-left: 20px; }
+
+  /* Les blocs apparaissent en douceur quand on descend */
+  .apparait { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .apparait.vu { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .apparait { opacity: 1; transform: none; transition: none; }
+    .haut h1, .etoiles, .etoiles::after, .descendre { animation: none; }
+  }
 
   .cache { display: none !important; }
   .bouton-petit { font-size: 18px; padding: 12px 20px; }
@@ -266,9 +374,24 @@
 </head>
 <body>
 
-<header class="haut">
+<nav class="menu" id="menu">
   <div class="contenu">
-    <span class="badge">v0.2.7 · Gratuit · Nouveau : le jeu parle anglais !</span>
+    <a class="logo" href="#"><img src="images/icone.png" alt="" width="34" height="34">Cuberra Isles</a>
+    <div class="liens">
+      <a href="#histoire">L'histoire</a>
+      <a href="#images">Images</a>
+      <a href="#aventure">L'aventure</a>
+      <a href="#installer">Installer</a>
+      <a href="#questions">Questions</a>
+    </div>
+    <a class="jouer-vite" href="jouer/">▶ Jouer</a>
+  </div>
+</nav>
+
+<header class="haut">
+  <div class="etoiles"></div>
+  <div class="contenu">
+    <span class="badge">v0.2.8 · Gratuit · Nouveau : le jeu parle anglais !</span>
     <h1>CUBERRA ISLES</h1>
     <p class="slogan">Une petite île, un cube, et tout un monde à explorer.</p>
     <!-- Les boutons, selon l'appareil (voir le script en bas de la page) -->
@@ -297,116 +420,189 @@
     <p class="note" data-pour="android">📦 La version Android à installer arrive bientôt. En attendant, tu peux jouer directement ici !</p>
     <button class="petit-partage" type="button" data-partager>📤 Partager le jeu à un ami</button>
   </div>
+  <a class="descendre" href="#nouveau" aria-label="Découvrir le jeu">⌄</a>
 </header>
 
 <main>
-  <section>
+  <section id="nouveau">
     <div class="contenu">
-      <h2>🗺️ L'histoire</h2>
-      <p class="intro">Sur ton île tranquille, le vieil Orban te raconte la légende du <strong>Grand Roi Démon</strong>, enfermé tout au fond du monde il y a très longtemps… Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver sur les îles… À toi de prendre la mer, d'explorer le monde et de découvrir la vérité !</p>
-      <p class="intro">✨ <strong>Nouveau : le chapitre 2 !</strong> Une fois le Grand Roi Démon vaincu, des mages venus d'un royaume lointain ouvrent un portail magique… Dans le royaume d'Astralis, on ne se bat plus avec une épée, mais avec une baguette magique. Et le royaume a grand besoin d'un héros.</p>
-      <img class="affiche-jeu" src="images/fiche-jeu.jpg" width="1920" height="1080" alt="Cuberra Isles : le héros, un cube bleu, lève son épée électrique face au Roi Démon, avec ses amis et les îles à l'horizon">
-    </div>
-  </section>
-
-  <section>
-    <div class="contenu">
-      <h2>📸 Dans le jeu</h2>
-      <div class="galerie">
-        <figure><img src="images/village.jpg" alt="Le village de départ" loading="lazy"><figcaption>Ton village, là où tout commence</figcaption></figure>
-        <figure><img src="images/sombrebois.jpg" alt="Une île sombre avec une grotte et une cabane" loading="lazy"><figcaption>Une île sombre… et sa grotte</figcaption></figure>
-        <figure><img src="images/grotte.jpg" alt="L'intérieur d'une grotte, avec des champignons qui luisent" loading="lazy"><figcaption>Au fond de la grotte</figcaption></figure>
-        <figure><img src="images/village-sombrebois.jpg" alt="Un village caché dans les bois" loading="lazy"><figcaption>Un village caché dans les bois</figcaption></figure>
-        <figure><img src="images/bateau.jpg" alt="Le cube dans sa barque, en pleine mer" loading="lazy"><figcaption>En route vers d'autres îles</figcaption></figure>
-        <figure><img src="images/village-nuit.jpg" alt="Le village, la nuit" loading="lazy"><figcaption>Le village, la nuit</figcaption></figure>
+      <div class="nouveau apparait">
+        <div><b>🌍 Le jeu parle anglais</b><span>Tout passe en anglais si ton appareil n'est pas en français.</span></div>
+        <div><b>🎨 Des graphismes tout neufs</b><span>Mer qui scintille, arbres au vent, lucioles, contours dessinés…</span></div>
+        <div><b>💾 Tes parties protégées</b><span>Une copie de secours, et une partie effacée se récupère.</span></div>
+        <div><b>🪄 Le chapitre 2</b><span>Le royaume magique d'Astralis et ses quatre généraux démons.</span></div>
+      </div>
+      <div class="chiffres apparait">
+        <div class="chiffre"><b>34</b><span>îles à explorer</span></div>
+        <div class="chiffre"><b>13</b><span>grottes et lieux secrets</span></div>
+        <div class="chiffre"><b>65</b><span>animaux</span></div>
+        <div class="chiffre"><b>30+</b><span>monstres et boss</span></div>
+        <div class="chiffre"><b>2</b><span>chapitres d'histoire</span></div>
+        <div class="chiffre"><b>0 €</b><span>pas de pub, pas d'achat</span></div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section id="histoire" class="clair">
     <div class="contenu">
-      <h2>✨ Ce qui t'attend</h2>
+      <div class="titre apparait">
+        <span class="sur">L'histoire</span>
+        <h2>🗺️ Une légende oubliée…</h2>
+        <p>Une aventure en deux chapitres, avec des dizaines de personnages, des quêtes et des boss.</p>
+      </div>
+      <div class="chapitres">
+        <article class="chapitre apparait">
+          <img src="images/fiche-jeu.jpg" alt="Le héros, un cube bleu, lève son épée électrique face au Roi Démon" loading="lazy" width="1920" height="1080">
+          <div>
+            <span class="numero">Chapitre 1</span>
+            <h3>Le Grand Roi Démon</h3>
+            <p>Sur ton île tranquille, le vieil Orban te raconte la légende du <strong>Grand Roi Démon</strong>, enfermé tout au fond du monde il y a très longtemps… Simple histoire de vieux ? Pourtant, d'étranges choses commencent à arriver sur les îles. À toi de prendre la mer, d'aider les habitants, de trouver les cristaux… et de découvrir la vérité !</p>
+          </div>
+        </article>
+        <article class="chapitre apparait">
+          <img src="images/jeu-astralis.jpg" alt="La cité royale d'Astralis, avec sa grande fontaine en étoile et son marché" loading="lazy" width="1152" height="648">
+          <div>
+            <span class="numero">Chapitre 2</span>
+            <h3>Le royaume d'Astralis</h3>
+            <p>Une fois le Roi Démon vaincu, des mages venus de loin ouvrent un <strong>portail magique</strong>. Dans le royaume d'Astralis, on ne se bat plus avec une épée, mais avec une <strong>baguette magique</strong>. Quatre généraux démons, Givre, Tonnerre, Ombre et Venin, menacent la reine Séléna. Le royaume a besoin d'un héros !</p>
+          </div>
+        </article>
+      </div>
+      <p class="bulle apparait">« Te revoilà, petit ! Tu te souviens de la légende du Grand Roi Démon&nbsp;?&nbsp;»<small>Orban le Voyageur</small></p>
+    </div>
+  </section>
+
+  <section id="images">
+    <div class="contenu">
+      <div class="titre apparait">
+        <span class="sur">Dans le jeu</span>
+        <h2>📸 Un monde à découvrir</h2>
+        <p>Des îles de neige, de sable, de fleurs ou de magie, chacune avec ses habitants, ses animaux et ses secrets. Clique sur une image pour l'agrandir.</p>
+      </div>
+      <div class="galerie apparait">
+        <figure class="grand"><img src="images/jeu-village.jpg" alt="Le village de départ, ses maisons, ses arbres et ses vaches" loading="lazy"><figcaption>Ton village, là où tout commence</figcaption></figure>
+        <figure><img src="images/jeu-village-nuit.jpg" alt="Le village la nuit, les fenêtres allumées et les lucioles" loading="lazy"><figcaption>La nuit, les fenêtres s'allument…</figcaption></figure>
+        <figure><img src="images/jeu-combat.jpg" alt="Le cube face à trois slimes, dans une forêt de sapins" loading="lazy"><figcaption>… et les monstres sortent !</figcaption></figure>
+        <figure><img src="images/jeu-glacee.jpg" alt="Un village de chalets sur une île couverte de neige" loading="lazy"><figcaption>L'île glacée et ses chalets</figcaption></figure>
+        <figure><img src="images/jeu-oasis.jpg" alt="Une oasis avec des palmiers et des tentes dans le désert" loading="lazy"><figcaption>Une oasis au coucher du soleil</figcaption></figure>
+        <figure><img src="images/jeu-cerisiers.jpg" alt="Une île couverte de cerisiers en fleurs, avec une pagode" loading="lazy"><figcaption>L'île des cerisiers</figcaption></figure>
+        <figure><img src="images/jeu-grands-bois.jpg" alt="Un village de cabanes perchées dans de grands arbres" loading="lazy"><figcaption>Les cabanes des Grands Bois</figcaption></figure>
+        <figure><img src="images/jeu-astralis.jpg" alt="La cité royale d'Astralis" loading="lazy"><figcaption>La cité royale d'Astralis</figcaption></figure>
+        <figure><img src="images/jeu-carte.jpg" alt="La carte du monde avec toutes les îles" loading="lazy"><figcaption>La carte : toutes les îles du monde</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="aventure" class="clair">
+    <div class="contenu">
+      <div class="titre apparait">
+        <span class="sur">L'aventure</span>
+        <h2>✨ Ce qui t'attend</h2>
+      </div>
       <div class="cartes">
-        <div class="carte"><div class="emoji">🧭</div><h3>Explore</h3><p>Prends la mer et découvre ce qui se cache au-delà de l'horizon.</p></div>
-        <div class="carte"><div class="emoji">⚔️</div><h3>Deviens plus fort</h3><p>Ramasse des ressources et fais fabriquer de meilleures armes et de meilleurs outils.</p></div>
-        <div class="carte"><div class="emoji">🌙</div><h3>Méfie-toi de la nuit</h3><p>Quand le soleil se couche, les monstres sortent…</p></div>
-        <div class="carte"><div class="emoji">🤝</div><h3>Aide les habitants</h3><p>Chaque village a ses histoires, et des services à te demander.</p></div>
-        <div class="carte"><div class="emoji">🏠</div><h3>Ta maison</h3><p>Un endroit à toi, à agrandir au fil de l'aventure.</p></div>
-        <div class="carte"><div class="emoji">🪄</div><h3>Un royaume magique</h3><p>Nouveau ! Passe le portail, découvre la cité royale et apprends la magie avec ta baguette.</p></div>
-        <div class="carte"><div class="emoji">❓</div><h3>Et des secrets…</h3><p>Le reste ? C'est à toi de le découvrir !</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="contenu deux">
-      <div data-pour="windows">
-        <h2>⬇️ Installer sur Windows</h2>
-        <ol class="etapes">
-          <li>Clique sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>Installer pour Windows</b></a>.</li>
-          <li>Ouvre le fichier <b>CuberraIsles.exe</b> téléchargé : il n'y a rien d'autre à installer.</li>
-          <li>Si Windows affiche « Windows a protégé votre ordinateur », clique sur <b>« Informations complémentaires »</b> puis <b>« Exécuter quand même »</b>.</li>
-        </ol>
-        <p class="note">🔄 Les mises à jour sont automatiques : le jeu les télécharge pendant que tu joues, et les installe quand tu le fermes. Tes sauvegardes sont gardées.</p>
-      </div>
-      <div data-pour="android-apk">
-        <h2>⬇️ Installer sur Android</h2>
-        <ol class="etapes">
-          <li>Appuie sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk"><b>Installer pour Android</b></a>.</li>
-          <li>Ouvre le fichier <b>CuberraIsles.apk</b> téléchargé.</li>
-          <li>Si le téléphone le demande, autorise l'installation d'applications depuis ton navigateur.</li>
-        </ol>
-      </div>
-      <div data-pour="apple android autre windows android-apk">
-        <h2>▶️ Jouer directement ici</h2>
-        <ol class="etapes">
-          <li>Appuie sur <a href="jouer/"><b>Jouer</b></a> et attends le chargement (environ 80 Mo, la première fois).</li>
-          <li>Sur iPhone, iPad et Android : tourne l'écran à l'horizontale. Le <b>joystick</b> est à gauche, les boutons à droite.</li>
-          <li>Sur Mac et ordinateur : joue au clavier (les commandes sont juste en dessous).</li>
-        </ol>
-        <h3>📲 L'installer comme une appli (téléphone et tablette)</h3>
-        <ol class="etapes">
-          <li><b>Android</b> : dans le jeu, appuie sur <b>« Installer »</b> (le bandeau en haut), ou dans le menu ⋮ de Chrome, sur <b>« Installer l'application »</b>.</li>
-          <li><b>iPhone et iPad</b> : dans Safari, touche le bouton <b>Partager</b> (le carré avec une flèche), puis <b>« Sur l'écran d'accueil »</b>.</li>
-          <li>Le jeu a alors sa propre icône, s'ouvre en plein écran, et se met à jour tout seul. Rien à télécharger : pas de message « fichier inconnu ».</li>
-        </ol>
-        <p class="note">🧪 La version navigateur est toute nouvelle : si quelque chose ne marche pas, signale-le !</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="contenu deux">
-      <div>
-        <h3 class="titre-table">⌨️ Au clavier</h3>
-        <table>
-          <tr><td>ZQSD / flèches</td><td>Se déplacer</td></tr>
-          <tr><td>Espace / clic</td><td>Frapper, tirer</td></tr>
-          <tr><td>E</td><td>Parler, ouvrir, entrer, monter en bateau</td></tr>
-          <tr><td>1 à 9 / molette</td><td>Changer d'objet en main</td></tr>
-          <tr><td>F</td><td>Boire une potion</td></tr>
-          <tr><td>C</td><td>Plonger</td></tr>
-          <tr><td>I</td><td>Inventaire, quêtes et carte</td></tr>
-          <tr><td>Échap</td><td>Pause</td></tr>
-        </table>
-      </div>
-      <div>
-        <h3 class="titre-table">👆 Au doigt</h3>
-        <table>
-          <tr><td>Joystick</td><td>Pose le pouce à gauche de l'écran pour te déplacer</td></tr>
-          <tr><td>Gros bouton</td><td>Frapper avec l'objet en main</td></tr>
-          <tr><td>E</td><td>Parler, ouvrir… (il s'allume quand il y a quelque chose)</td></tr>
-          <tr><td>Potion, vague</td><td>Boire une potion, plonger</td></tr>
-          <tr><td>Sac, pause</td><td>Inventaire et pause, en haut à droite</td></tr>
-          <tr><td>Écran</td><td>Touche-le pour faire avancer un dialogue</td></tr>
-        </table>
+        <div class="carte apparait" style="--c1:#2a6fbd;--c2:#3fb0d8"><div class="emoji">🧭</div><h3>Explore</h3><p>Prends la mer dans ta barque et découvre ce qui se cache au-delà de l'horizon : neige, déserts, forêts, volcans…</p></div>
+        <div class="carte apparait" style="--c1:#c94a3a;--c2:#e0862f"><div class="emoji">⚔️</div><h3>Deviens plus fort</h3><p>Coupe du bois, casse des rochers, et fais fabriquer chez Pépin de meilleures armes, armures et outils.</p></div>
+        <div class="carte apparait" style="--c1:#2b2f63;--c2:#6a3fa0"><div class="emoji">🌙</div><h3>Méfie-toi de la nuit</h3><p>Quand le soleil se couche, les monstres sortent… et les lucioles aussi.</p></div>
+        <div class="carte apparait" style="--c1:#3f8a5a;--c2:#7fc04a"><div class="emoji">🤝</div><h3>Aide les habitants</h3><p>Chaque village a ses histoires, ses quêtes et ses services à te demander.</p></div>
+        <div class="carte apparait" style="--c1:#8a5a33;--c2:#d9a46a"><div class="emoji">🏠</div><h3>Ta maison</h3><p>Un endroit à toi, à agrandir au fil de l'aventure.</p></div>
+        <div class="carte apparait" style="--c1:#6a3fa0;--c2:#c88cf0"><div class="emoji">🪄</div><h3>La magie</h3><p>Passe le portail, découvre la cité royale et deviens un vrai sorcier, avec ta baguette et ta robe.</p></div>
+        <div class="carte apparait" style="--c1:#c43a7a;--c2:#ff8fb8"><div class="emoji">🐾</div><h3>Des animaux partout</h3><p>Vaches, renards, pingouins, licornes… chaque île a ses animaux, tous gentils.</p></div>
+        <div class="carte apparait" style="--c1:#c98a14;--c2:#f2c14e"><div class="emoji">❓</div><h3>Et des secrets…</h3><p>Des îles cachées, des trésors, des grottes… Le reste, c'est à toi de le découvrir !</p></div>
       </div>
     </div>
   </section>
 
   <section>
     <div class="contenu">
-      <div class="partage">
+      <div class="age apparait">
+        <div class="pastille"><b>7+</b><span>âge conseillé</span></div>
+        <div>
+          <h2>👪 Pour qui ?</h2>
+          <p>Le jeu est fait pour les enfants et toute la famille, <b>à partir de 7 ans</b> environ :</p>
+          <ul>
+            <li>⚔️ des combats façon dessin animé contre des monstres (pas de sang) ;</li>
+            <li>🌙 un peu de suspense (la nuit, les démons) ;</li>
+            <li>🚫 pas de pub, pas d'achat, pas de compte, pas de discussion avec des inconnus.</li>
+          </ul>
+          <p class="note">C'est notre estimation, faite d'après les critères PEGI. Ce n'est pas une classification PEGI officielle : le jeu n'est vendu dans aucun magasin, il n'a donc pas été évalué par PEGI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="installer" class="clair">
+    <div class="contenu">
+      <div class="titre apparait">
+        <span class="sur">Jouer</span>
+        <h2>🎮 Comment jouer ?</h2>
+        <p>Directement dans le navigateur, ou installé sur ton appareil : à toi de choisir.</p>
+      </div>
+      <div class="deux">
+        <div data-pour="windows" class="apparait">
+          <h2>⬇️ Installer sur Windows</h2>
+          <ol class="etapes">
+            <li>Clique sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.exe"><b>Installer pour Windows</b></a>.</li>
+            <li>Ouvre le fichier <b>CuberraIsles.exe</b> téléchargé : il n'y a rien d'autre à installer.</li>
+            <li>Si Windows affiche « Windows a protégé votre ordinateur », clique sur <b>« Informations complémentaires »</b> puis <b>« Exécuter quand même »</b>.</li>
+          </ol>
+          <p class="note">🔄 Les mises à jour sont automatiques : le jeu les télécharge pendant que tu joues, et les installe quand tu le fermes. Tes sauvegardes sont gardées.</p>
+        </div>
+        <div data-pour="android-apk" class="apparait">
+          <h2>⬇️ Installer sur Android</h2>
+          <ol class="etapes">
+            <li>Appuie sur <a href="https://github.com/maher-mme/cuberra-isles/releases/latest/download/CuberraIsles.apk"><b>Installer pour Android</b></a>.</li>
+            <li>Ouvre le fichier <b>CuberraIsles.apk</b> téléchargé.</li>
+            <li>Si le téléphone le demande, autorise l'installation d'applications depuis ton navigateur.</li>
+          </ol>
+        </div>
+        <div data-pour="apple android autre windows android-apk" class="apparait">
+          <h2>▶️ Jouer directement ici</h2>
+          <ol class="etapes">
+            <li>Appuie sur <a href="jouer/"><b>Jouer</b></a> et attends le chargement (environ 80 Mo, la première fois).</li>
+            <li>Sur iPhone, iPad et Android : tourne l'écran à l'horizontale. Le <b>joystick</b> est à gauche, les boutons à droite.</li>
+            <li>Sur Mac et ordinateur : joue au clavier (les commandes sont juste en dessous).</li>
+          </ol>
+          <h3>📲 L'installer comme une appli (téléphone et tablette)</h3>
+          <ol class="etapes">
+            <li><b>Android</b> : dans le jeu, appuie sur <b>« Installer »</b> (le bandeau en haut), ou dans le menu ⋮ de Chrome, sur <b>« Installer l'application »</b>.</li>
+            <li><b>iPhone et iPad</b> : dans Safari, touche le bouton <b>Partager</b> (le carré avec une flèche), puis <b>« Sur l'écran d'accueil »</b>.</li>
+            <li>Le jeu a alors sa propre icône, s'ouvre en plein écran, et se met à jour tout seul. Rien à télécharger : pas de message « fichier inconnu ».</li>
+          </ol>
+          <p class="note">💡 Ouvre le jeu dans une seule fenêtre à la fois : c'est plus sûr pour tes parties.</p>
+        </div>
+      </div>
+      <div class="deux" style="margin-top: 34px">
+        <div class="apparait">
+          <h3 class="titre-table">⌨️ Au clavier</h3>
+          <table>
+            <tr><td>ZQSD / flèches</td><td>Se déplacer</td></tr>
+            <tr><td>Espace / clic</td><td>Frapper, tirer</td></tr>
+            <tr><td>E</td><td>Parler, ouvrir, entrer, monter en bateau</td></tr>
+            <tr><td>1 à 9 / molette</td><td>Changer d'objet en main</td></tr>
+            <tr><td>F</td><td>Boire une potion</td></tr>
+            <tr><td>C</td><td>Plonger</td></tr>
+            <tr><td>I</td><td>Inventaire, quêtes et carte</td></tr>
+            <tr><td>Échap</td><td>Pause</td></tr>
+          </table>
+        </div>
+        <div class="apparait">
+          <h3 class="titre-table">👆 Au doigt</h3>
+          <table>
+            <tr><td>Joystick</td><td>Pose le pouce à gauche de l'écran pour te déplacer</td></tr>
+            <tr><td>Gros bouton</td><td>Frapper avec l'objet en main</td></tr>
+            <tr><td>E</td><td>Parler, ouvrir… (il s'allume quand il y a quelque chose)</td></tr>
+            <tr><td>Potion, vague</td><td>Boire une potion, plonger</td></tr>
+            <tr><td>Sac, pause</td><td>Inventaire et pause, en haut à droite</td></tr>
+            <tr><td>Écran</td><td>Touche-le pour faire avancer un dialogue</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contenu">
+      <div class="partage apparait">
         <div>
           <h2>📣 Fais découvrir le&nbsp;jeu&nbsp;!</h2>
           <p>Le jeu te plaît ? Envoie-le à un copain : par message, par mail… Ou montre-lui le QR code : il le scanne avec son téléphone et il joue tout de suite, sans rien installer.</p>
@@ -424,9 +620,12 @@
     </div>
   </section>
 
-  <section>
+  <section id="questions" class="clair">
     <div class="contenu questions">
-      <h2>❔ Questions</h2>
+      <div class="titre apparait">
+        <span class="sur">Questions</span>
+        <h2>❔ Tu te demandes…</h2>
+      </div>
       <details>
         <summary>Est-ce que le jeu est gratuit ?</summary>
         <p>Oui, complètement : pas de pub, pas d'achat dans le jeu, pas de compte à créer.</p>
@@ -441,18 +640,22 @@
       </details>
       <details>
         <summary>Ma partie est-elle sauvegardée ?</summary>
-        <p>Oui, le jeu sauvegarde tout seul sur ton appareil, et tu peux avoir plusieurs parties en même temps.</p>
+        <p>Oui, le jeu sauvegarde sur ton appareil, et tu peux avoir trois parties en même temps. Il garde aussi une copie de secours, et une partie effacée peut être récupérée avec le bouton « Récupérer ».</p>
       </details>
       <details>
         <summary>Le jeu est-il en français ?</summary>
-        <p>Oui, tout le jeu est en français : les dialogues, les quêtes et les menus.</p>
+        <p>Oui ! Et aussi en anglais : le jeu choisit tout seul la langue de ton appareil, et tu peux la changer dans les Options.</p>
+      </details>
+      <details>
+        <summary>À partir de quel âge ?</summary>
+        <p>On le conseille à partir de 7 ans environ : il y a des combats contre des monstres, façon dessin animé, mais pas de sang, pas de pub et pas de discussion en ligne.</p>
       </details>
     </div>
   </section>
 
   <section>
     <div class="contenu">
-      <div class="bug">
+      <div class="bug apparait">
         <div>
           <h2>🐛 Tu as trouvé un&nbsp;bug&nbsp;?</h2>
           <p>Quelque chose ne marche pas comme prévu ? Dis-le-nous, on le corrigera dans la prochaine mise à jour ! (Il faut un compte GitHub, c'est gratuit.)</p>
@@ -462,6 +665,14 @@
     </div>
   </section>
 </main>
+
+<div class="loupe" id="loupe" role="dialog" aria-label="Image en grand">
+  <img alt="">
+  <p></p>
+  <button class="avant" type="button" aria-label="Image précédente">‹</button>
+  <button class="apres" type="button" aria-label="Image suivante">›</button>
+  <button class="fermer" type="button" aria-label="Fermer">✕</button>
+</div>
 
 <footer>
   <div class="contenu">
@@ -581,6 +792,56 @@
         copierLien();
       }
     });
+  });
+
+  // Le menu du haut devient opaque quand on descend dans la page.
+  var menu = document.getElementById("menu");
+  function menuPlein() { menu.classList.toggle("plein", window.scrollY > 40); }
+  window.addEventListener("scroll", menuPlein, { passive: true });
+  menuPlein();
+
+  // Les blocs apparaissent en douceur quand on arrive dessus.
+  var blocs = document.querySelectorAll(".apparait");
+  if ("IntersectionObserver" in window) {
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (entree) {
+        if (entree.isIntersecting) {
+          entree.target.classList.add("vu");
+          observateur.unobserve(entree.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    blocs.forEach(function (bloc) { observateur.observe(bloc); });
+  } else {
+    blocs.forEach(function (bloc) { bloc.classList.add("vu"); });
+  }
+
+  // La galerie : un clic sur une image l'ouvre en grand (flèches pour passer
+  // à la suivante, Échap ou un clic à côté pour fermer).
+  var loupe = document.getElementById("loupe");
+  var images = Array.prototype.slice.call(document.querySelectorAll(".galerie figure"));
+  var actuelle = 0;
+  function montrer(index) {
+    actuelle = (index + images.length) % images.length;
+    var image = images[actuelle].querySelector("img");
+    loupe.querySelector("img").src = image.src;
+    loupe.querySelector("img").alt = image.alt;
+    loupe.querySelector("p").textContent = images[actuelle].querySelector("figcaption").textContent;
+    loupe.classList.add("ouverte");
+  }
+  function fermer() { loupe.classList.remove("ouverte"); }
+  images.forEach(function (figure, index) {
+    figure.addEventListener("click", function () { montrer(index); });
+  });
+  loupe.querySelector(".avant").addEventListener("click", function (e) { e.stopPropagation(); montrer(actuelle - 1); });
+  loupe.querySelector(".apres").addEventListener("click", function (e) { e.stopPropagation(); montrer(actuelle + 1); });
+  loupe.querySelector(".fermer").addEventListener("click", fermer);
+  loupe.addEventListener("click", function (e) { if (e.target === loupe) { fermer(); } });
+  document.addEventListener("keydown", function (e) {
+    if (!loupe.classList.contains("ouverte")) { return; }
+    if (e.key === "Escape") { fermer(); }
+    if (e.key === "ArrowLeft") { montrer(actuelle - 1); }
+    if (e.key === "ArrowRight") { montrer(actuelle + 1); }
   });
 </script>
 </body>
